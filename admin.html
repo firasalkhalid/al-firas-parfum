@@ -1,0 +1,120 @@
+<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin Al Firas</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<style>
+body{font-family:system-ui;margin:0;background:#f5f5f5;padding-bottom:140px}
+#tabs{display:flex;background:#111;color:#fff;position:sticky;top:0;z-index:10}
+#tabs button{flex:1;padding:14px;background:none;border:0;color:#fff;cursor:pointer}
+#tabs button.on{background:#333;border-bottom:3px solid #fff}
+.page{display:none;padding:16px;max-width:900px;margin:auto;padding-bottom:140px}.page.on{display:block}
+input,textarea,select{width:100%;padding:10px;margin:6px 0;border:1px solid #ddd;border-radius:8px}
+.chk{display:inline-block;margin:4px;border:1px solid #ddd;padding:6px 10px;border-radius:20px;cursor:pointer;background:#fff;font-size:13px}
+.chk.on{background:#111;color:#fff}
+button.b{padding:10px 16px;border-radius:8px;border:0;background:#111;color:#fff;cursor:pointer}
+#grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.1);cursor:pointer}
+.card img{width:100%;height:140px;object-fit:cover}.card.in{padding:8px}
+#detail{display:none;background:#fff;border-radius:12px;padding:16px;margin-bottom:120px}
+#detail img{width:100%;height:auto;max-height:none;object-fit:contain;border-radius:10px;background:#f9f9f9}
+.nchip{display:inline-block;background:#eee;padding:6px 10px;border-radius:20px;margin:4px}
+.nx{background:#c00;color:#fff;border:0;border-radius:50%;width:20px;height:20px;font-size:12px;margin-left:6px;cursor:pointer}
+#sug{border:1px solid #ddd;border-radius:8px;background:#fff;max-height:150px;overflow-y:auto;display:none}
+#sug div{padding:8px;cursor:pointer}#sug div:hover{background:#f0f0f0}
+.noteRow{display:flex;justify-content:space-between;background:#fff;padding:8px 12px;margin:6px 0;border-radius:8px;align-items:center}
+.rev{border-top:1px solid #eee;padding:10px 0}
+.vtbtn{background:transparent;color:#111;border:1px solid #111;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap}
+#vtPop{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:200}
+#vtPop.box{background:#fff;padding:20px;border-radius:12px;width:92%;max-width:380px;text-align:center}
+#vtLinkText{word-break:break-all;font-size:12px;background:#f5f5f5;padding:8px;border-radius:8px;margin:10px 0}
+#notesDD{position:relative;min-width:140px;max-width:180px}
+#notesBtn{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;background:#fff;cursor:pointer;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px}
+#notesPanel{position:absolute;top:110%;left:0;width:260px;max-height:300px;background:#fff;border:1px solid #ddd;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.15);display:none;flex-direction:column;overflow:hidden;z-index:100}
+#notesSearch{margin:8px;padding:8px;border:1px solid #ddd;border-radius:8px}
+#notesList{overflow-y:auto;padding:0 8px 8px}
+.nrow{display:flex;align-items:center;gap:8px;padding:7px 6px;border-radius:6px;cursor:pointer;font-size:14px}
+.nrow:hover{background:#f5f5f5}.nrow input{width:auto;margin:0}
+.nall{border-bottom:1px solid #eee;margin:0 8px;padding:8px 6px;font-weight:700;display:flex;gap:8px;align-items:center;cursor:pointer}
+.nall input{width:auto;margin:0}
+@media(max-width:768px){#grid{grid-template-columns:repeat(2,1fr)}#notesPanel{width:220px}}
+</style></head><body>
+<div id="tabs"><button class="on" onclick="sw(0)">All Products</button><button onclick="sw(1)">Add Products</button><button onclick="sw(2)">Notes</button><button onclick="sw(3)">Links</button><button onclick="sw(4)">Banner</button><button id="logoutBtn" style="flex:0 0 auto;padding:14px 16px;background:#c00">Logout</button></div>
+<div class="page on" id="p0"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center"><input id="q" placeholder="Search" style="max-width:150px"><select id="fBrand" style="max-width:120px"><option value="">Brand</option></select><span><button class="chk" data-v="pria" onclick="togG0(this)">Pria</button><button class="chk" data-v="wanita" onclick="togG0(this)">Wanita</button><button class="chk" data-v="unisex" onclick="togG0(this)">Unisex</button></span><div id="notesDD"><button id="notesBtn" type="button">Semua Notes ▾</button><div id="notesPanel"><input id="notesSearch" placeholder="Ketik notes..."><label class="nall"><input type="checkbox" id="notesAll" checked> Semua Notes</label><div id="notesList"></div></div></div></div><div id="listV"><div id="grid"></div><div style="text-align:center;margin:12px;margin-bottom:80px"><button class="b" id="btnMore">Lebih banyak</button> <button class="b" id="btnLess" style="display:none;background:#666">Lebih sedikit</button></div></div><div id="detail"></div><div style="height:100px"></div></div>
+<div class="page" id="p1"><h3 id="formTitle">Tambah Produk</h3><input id="name" placeholder="Nama *"><input id="brand" placeholder="Brand"><input id="price" type="number" placeholder="Harga"><input id="image" placeholder="URL Gambar"><input id="shopee" placeholder="Link Shopee"><input id="vtLink" placeholder="Link VT TikTok Review"><input id="adminScore" type="number" step="0.1" min="1" max="10" placeholder="Score Admin 1-10"><textarea id="desc" placeholder="Deskripsi"></textarea><h4>Gender</h4><div id="gBox"><label class="chk"><input type="checkbox" value="pria" hidden> pria</label><label class="chk"><input type="checkbox" value="wanita" hidden> wanita</label><label class="chk"><input type="checkbox" value="unisex" hidden> unisex</label></div><h4>Notes terpilih</h4><div id="selBox"></div><h4>Tambah notes</h4><div style="display:flex;gap:8px"><input id="newNote" placeholder="Ketik huruf per huruf..." style="flex:1"><button class="b" id="addNoteBtn" style="width:60px">+</button></div><div id="sug"></div><button class="b" id="save" style="width:100%;margin-top:12px">Simpan Produk</button><button class="b" id="cancelEdit" style="width:100%;margin-top:8px;background:#777;display:none">Batal Edit</button><div style="height:100px"></div></div>
+<div class="page" id="p2"><h3>Library Notes</h3><div style="display:flex;gap:8px"><input id="libInput" placeholder="Ketik + Enter" style="flex:1"><button class="b" id="libAdd">+</button></div><div id="libList" style="margin-top:12px"></div><div style="height:100px"></div></div>
+<div class="page" id="p3"><h3>Links</h3><label>Link Profil TikTok</label><input id="tiktokProfile" placeholder="https://tiktok.com/@..."><button class="b" onclick="saveTiktok()">Simpan</button><hr style="margin:20px 0"><h3>Link VT Review TikTok per Produk</h3><div id="vtList" style="margin-top:12px"></div><div style="height:100px"></div></div>
+<div class="page" id="p4"><h3>Banner</h3><input id="bannerUrl" placeholder="https://..."><div style="display:flex;gap:8px"><button class="b" onclick="saveBanner()">Simpan</button><button class="b" style="background:#555" onclick="testBanner()">Preview</button></div><div id="bannerPreview" style="margin-top:10px"></div><div style="height:100px"></div></div>
+<div id="vtPop"><div class="box"><h3 style="margin:0">Buka VT Review</h3><div id="vtLinkText"></div><div style="display:flex;gap:8px"><button class="b" id="vtOpen" style="flex:1">Buka Link</button><button class="b" id="vtCopy" style="flex:1;background:#333">Copy Link</button></div><button class="b" id="vtClose" style="width:100%;margin-top:8px;background:#777">Tutup</button></div></div>
+<script>
+const firebaseConfig={apiKey:"AIzaSyAdz_Kdu7r_nxFw1LAUJCBCzIZd7aZKnp4",authDomain:"alfiras-parfum.firebaseapp.com",projectId:"alfiras-parfum"};
+firebase.initializeApp(firebaseConfig); const db=firebase.firestore();
+const ALLOWED_ADMIN="firasalkhalid@gmail.com";
+let authOK=false;
+firebase.auth().onAuthStateChanged(function(user){
+  if(!user || user.email!==ALLOWED_ADMIN){
+    if(user) firebase.auth().signOut();
+    location.href='index.html';
+  } else {
+    if(authOK) return; authOK=true;
+    initAdmin();
+  }
+});
+document.getElementById('logoutBtn').onclick=function(){ firebase.auth().signOut().then(()=>location.href='index.html'); };
+function initAdmin(){
+let all=[],showN=25,editId=null,selected=new Set(),libNotes=[],selG0=new Set(),curVt=''; let allNotes=[], selNotes=new Set();
+function esc(s){return (s||'').replace(/'/g,"\\'");}
+function openVt(l){curVt=l;document.getElementById('vtLinkText').textContent=l;document.getElementById('vtPop').style.display='flex';}
+window.openVt=openVt;
+document.getElementById('vtClose').onclick=()=>document.getElementById('vtPop').style.display='none';
+document.getElementById('vtOpen').onclick=()=>{if(curVt) window.open(curVt,'_blank');};
+document.getElementById('vtCopy').onclick=async()=>{try{await navigator.clipboard.writeText(curVt);alert('Link tercopy!');}catch(e){const t=document.createElement('textarea');t.value=curVt;document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);alert('Link tercopy!');}};
+function sw(i){document.querySelectorAll('#tabs button').forEach((b,k)=>b.classList.toggle('on',k===i));document.querySelectorAll('.page').forEach((p,k)=>p.classList.toggle('on',k===i));}
+window.sw=sw;
+function rp(n){return 'Rp '+Number(n||0).toLocaleString('id-ID');}
+function avg(p){const hasAdmin=p.adminScore>0;const c=p.ratingCount||0;const s=p.ratingSum||0;if(hasAdmin&&c===0) return Number(p.adminScore).toFixed(1);if(hasAdmin&&c>0) return ((Number(p.adminScore)+s)/(1+c)).toFixed(1);if(!hasAdmin&&c>0) return (s/c).toFixed(1);return '-';}
+window.togG0=el=>{const v=el.dataset.v; if(selG0.has(v)){selG0.delete(v);el.classList.remove('on');}else{selG0.add(v);el.classList.add('on');} showN=25; renderGrid();};
+const notesBtn=document.getElementById('notesBtn'), notesPanel=document.getElementById('notesPanel'), notesSearch=document.getElementById('notesSearch'), notesList=document.getElementById('notesList'), notesAll=document.getElementById('notesAll');
+notesBtn.onclick=(e)=>{e.stopPropagation(); notesPanel.style.display=notesPanel.style.display==='flex'?'none':'flex';};
+document.addEventListener('click',(e)=>{ if(!document.getElementById('notesDD').contains(e.target)) notesPanel.style.display='none'; });
+notesSearch.oninput=()=>renderNotesList(notesSearch.value.toLowerCase().trim());
+notesAll.onchange=()=>{ if(notesAll.checked){ selNotes.clear(); renderNotesList(notesSearch.value.toLowerCase().trim()); updateNotesLabel(); showN=25; renderGrid(); } else { notesAll.checked=true; } };
+function renderNotesList(filter=''){ const f=allNotes.filter(n=>!filter||n.toLowerCase().includes(filter)); notesList.innerHTML=f.map(n=>`<label class="nrow"><input type="checkbox" data-n="${n}" ${selNotes.has(n)?'checked':''}> ${n}</label>`).join('')||'<div style="padding:8px"><small>Tidak ketemu</small></div>'; notesList.querySelectorAll('input').forEach(cb=>cb.onchange=()=>{ const v=cb.dataset.n; if(cb.checked){ selNotes.add(v); notesAll.checked=false; } else { selNotes.delete(v); if(selNotes.size===0) notesAll.checked=true; } updateNotesLabel(); showN=25; renderGrid(); }); }
+function updateNotesLabel(){ if(selNotes.size===0) notesBtn.textContent='Semua Notes ▾'; else if(selNotes.size===1) notesBtn.textContent=[...selNotes][0]+' ▾'; else notesBtn.textContent=selNotes.size+' notes dipilih ▾'; }
+async function loadLib(){try{const s=await db.collection('noteLib').get(); libNotes=s.docs.map(d=>({id:d.id,...d.data()}));}catch(e){libNotes=[];} allNotes=[...new Set(libNotes.map(x=>x.name))].sort(); renderNotesList(); updateNotesLabel(); renderLib(); renderSel();}
+function renderLib(){const b=document.getElementById('libList'); b.innerHTML=libNotes.map(x=>x.name).sort().map(n=>{const o=libNotes.find(x=>x.name===n); return `<div class="noteRow"><span>${n}</span><span><button onclick="editLib('${o.id}','${n}')">Edit</button> <button onclick="delLib('${o.id}','${n}')">Hapus</button></span></div>`;}).join('')||'<small>Belum ada notes</small>';}
+async function addLib(v){v=v.toLowerCase().trim(); if(!v) return; if(libNotes.find(x=>x.name===v)) return alert('sudah ada'); await db.collection('noteLib').add({name:v}); loadLib();}
+window.editLib=async(id,name)=>{const nv=prompt('Edit:',name); if(!nv) return; const nn=nv.toLowerCase().trim(); await db.collection('noteLib').doc(id).update({name:nn}); const ps=await db.collection('products').get(); for(let d of ps.docs){let p=d.data(); if((p.notes||[]).map(x=>x.toLowerCase()).includes(name)) await db.collection('products').doc(d.id).update({notes:p.notes.map(x=>x.toLowerCase()===name?nn:x)});} loadLib(); loadProducts();};
+window.delLib=async(id,name)=>{if(!confirm('Yakin hapus '+name+'?'))return; await db.collection('noteLib').doc(id).delete(); const ps=await db.collection('products').get(); for(let d of ps.docs){let p=d.data(); let f=(p.notes||[]).filter(x=>x.toLowerCase()!==name); if(f.length!==p.notes.length) await db.collection('products').doc(d.id).update({notes:f});} loadLib(); loadProducts();};
+document.getElementById('libAdd').onclick=()=>{addLib(document.getElementById('libInput').value);document.getElementById('libInput').value='';};
+document.getElementById('libInput').onkeydown=e=>{if(e.key==='Enter'){addLib(e.target.value);e.target.value='';}};
+async function loadProducts(){try{const s=await db.collection('products').orderBy('createdAt','desc').get(); all=s.docs.map(d=>({id:d.id,...d.data()}));}catch(e){all=[];}const br=[...new Set(all.map(p=>p.brand).filter(Boolean))]; document.getElementById('fBrand').innerHTML='<option value="">Brand</option>'+br.map(b=>`<option>${b}</option>`).join('');renderGrid(); renderVtList();}
+function filtered(){let q=document.getElementById('q').value.toLowerCase(),b=document.getElementById('fBrand').value;return all.filter(p=>{ if(q&&!p.name.toLowerCase().includes(q)) return false; if(b&&p.brand!==b) return false; if(selG0.size&&!(p.gender||[]).some(g=>selG0.has(g))) return false; if(selNotes.size){ const pn=(p.notes||[]).map(x=>x.toLowerCase()); for(let sn of selNotes){ if(!pn.includes(sn.toLowerCase())) return false; } } return true; });}
+function renderGrid(){document.getElementById('listV').style.display='';document.getElementById('detail').style.display='none';const f=filtered(),g=document.getElementById('grid');g.innerHTML='';f.slice(0,showN).forEach(p=>{const el=document.createElement('div');el.className='card';el.innerHTML=`<img src="${p.image||'https://via.placeholder.com/300'}"><div class="in"><b>${p.name}</b><br><small>${p.brand||''}</small><br>⭐ ${avg(p)}/10<br>${rp(p.price)}</div>`;el.onclick=()=>openDetail(p.id);g.appendChild(el);});document.getElementById('btnMore').style.display=f.length>showN?'':'none';document.getElementById('btnLess').style.display=showN>25?'':'none';}
+function renderVtList(){const box=document.getElementById('vtList'); const list=all.filter(p=>p.vtLink); box.innerHTML=list.map(p=>`<div class="noteRow"><span><b>${p.brand||''}</b> - ${p.name}<br><small style="word-break:break-all">${p.vtLink}</small></span><span style="white-space:nowrap"><button onclick="openVt('${esc(p.vtLink)}')">Buka</button> <button onclick="editVt('${p.id}')">Edit</button> <button onclick="delVt('${p.id}')">Hapus</button></span></div>`).join('')||'<small>Belum ada link VT.</small>';}
+window.editVt=async(id)=>{const cur=(all.find(x=>x.id===id)||{}).vtLink||'';const nv=prompt('Edit link VT:',cur); if(nv===null) return; await db.collection('products').doc(id).update({vtLink:nv.trim()}); loadProducts();};
+window.delVt=async id=>{if(!confirm('Hapus link VT ini?'))return; await db.collection('products').doc(id).update({vtLink:''}); loadProducts();};
+['q','fBrand'].forEach(id=>document.getElementById(id).oninput=()=>{showN=25;renderGrid();});
+document.getElementById('btnMore').onclick=()=>{showN+=25;renderGrid();};document.getElementById('btnLess').onclick=()=>{showN=Math.max(25,showN-25);renderGrid();};
+async function openDetail(id){const d=await db.collection('products').doc(id).get(); const p={id:d.id,...d.data()};document.getElementById('listV').style.display='none'; const det=document.getElementById('detail'); det.style.display='block';let nchips=(p.notes||[]).map(n=>`<span class="nchip">${n}<button class="nx" onclick="delNote('${id}','${n}')">x</button></span>`).join('');const rs=await db.collection('products').doc(id).collection('reviews').orderBy('createdAt','desc').get();let revs=rs.docs.map(rd=>{const r=rd.data();const vtb=r.vtLink?` <button class="vtbtn" onclick="openVt('${esc(r.vtLink)}')">Lihat VT Review Ku</button>`:'';return `<div class="rev"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span><b>${r.name}</b> - ⭐${r.score}${vtb}</span></div><div style="margin-top:4px">${r.text}</div><button onclick="delRev('${id}','${rd.id}')" style="background:#c00;color:#fff;border:0;padding:4px 8px;border-radius:6px;margin-top:6px">Hapus ulasan</button></div>`;}).join('')||'<small>Belum ada ulasan</small>';const prodVt=p.vtLink?`<button class="b" style="margin-top:8px;background:#000" onclick="openVt('${esc(p.vtLink)}')">Test Buka VT Produk</button>`:'';det.innerHTML=`<button class="b" onclick="renderGrid()">← Kembali</button> <button class="b" onclick="startEdit('${id}')">Edit</button> <button class="b" style="background:#c00" onclick="delP('${id}')">Delete</button><img src="${p.image||'https://via.placeholder.com/600'}" style="margin-top:10px"><h2>${p.name}</h2><p><b>${p.brand||''}</b> • ⭐ ${avg(p)}/10 • ${rp(p.price)}</p><p>${p.desc||''}</p><p><small>VT: ${p.vtLink||'-'}</small></p>${prodVt}<h4>Notes</h4><div>${nchips||'<small>belum ada</small>'}</div><h4>Ulasan pengunjung</h4>${revs}<div style="height:80px"></div>`;}
+window.delNote=async(id,note)=>{const d=await db.collection('products').doc(id).get(); let ns=(d.data().notes||[]).filter(x=>x!==note); await db.collection('products').doc(id).update({notes:ns}); loadProducts(); openDetail(id);};
+window.delP=async id=>{if(!confirm('Yakin hapus produk ini?'))return; await db.collection('products').doc(id).delete(); loadProducts();};
+window.delRev=async(pid,rid)=>{if(!confirm('Yakin hapus ulasan ini? Ini akan hapus rating + link VT juga.'))return; await db.collection('products').doc(pid).collection('reviews').doc(rid).delete(); const rs=await db.collection('products').doc(pid).collection('reviews').get(); let sum=0; rs.forEach(d=>sum+=Number(d.data().score||0)); await db.collection('products').doc(pid).update({ratingSum:sum,ratingCount:rs.size}); loadProducts(); openDetail(pid);};
+window.renderGrid=renderGrid;
+function renderSel(){document.getElementById('selBox').innerHTML=[...selected].map(n=>`<span class="nchip">${n}<button class="nx" onclick="remSel('${n}')">x</button></span>`).join('')||'<small>belum ada</small>';}
+window.remSel=n=>{selected.delete(n);renderSel();};
+document.querySelectorAll('#gBox .chk').forEach(l=>l.addEventListener('click',e=>{e.preventDefault(); l.classList.toggle('on'); l.querySelector('input').checked=l.classList.contains('on');}));
+const ni=document.getElementById('newNote'), sug=document.getElementById('sug');
+function doAddNote(v){v=v.toLowerCase().trim(); if(!v) return; if(selected.size>=20) return alert('maks 20'); if(!libNotes.find(x=>x.name===v)) db.collection('noteLib').add({name:v}).then(loadLib); selected.add(v); ni.value=''; sug.style.display='none'; renderSel();}
+document.getElementById('addNoteBtn').onclick=()=>doAddNote(ni.value);
+ni.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault(); doAddNote(ni.value);}});
+ni.addEventListener('input',()=>{const v=ni.value.toLowerCase().trim(); if(!v){sug.style.display='none';return;}const m=libNotes.map(x=>x.name).filter(n=>n.includes(v)&&!selected.has(n)).slice(0,8);if(!m.length){sug.style.display='none';return;}sug.innerHTML=m.map(n=>`<div data-n="${n}">${n}</div>`).join(''); sug.style.display='block';sug.querySelectorAll('div').forEach(d=>d.onclick=()=>doAddNote(d.dataset.n));});
+window.startEdit=async id=>{const d=await db.collection('products').doc(id).get(); const p=d.data(); editId=id;['name','brand','price','image','shopee','vtLink','adminScore','desc'].forEach(k=>document.getElementById(k).value=p[k]||'');selected=new Set((p.notes||[]).map(x=>x.toLowerCase())); renderSel();document.querySelectorAll('#gBox .chk').forEach(l=>{const v=l.querySelector('input').value; const on=(p.gender||[]).includes(v); l.classList.toggle('on',on); l.querySelector('input').checked=on;});sw(1); document.getElementById('formTitle').innerText='Edit Produk'; document.getElementById('save').innerText='Update'; document.getElementById('cancelEdit').style.display='block';};
+document.getElementById('cancelEdit').onclick=()=>{editId=null; ['name','brand','price','image','shopee','vtLink','adminScore','desc'].forEach(k=>document.getElementById(k).value=''); selected.clear(); renderSel(); document.getElementById('formTitle').innerText='Tambah Produk'; document.getElementById('save').innerText='Simpan Produk'; document.getElementById('cancelEdit').style.display='none';};
+document.getElementById('save').onclick=async()=>{const gs=[...document.querySelectorAll('#gBox input:checked')].map(i=>i.value); let sc=Number(document.getElementById('adminScore').value||0);if(!document.getElementById('name').value) return alert('nama wajib'); if(!gs.length) return alert('gender wajib');const data={name:document.getElementById('name').value,brand:document.getElementById('brand').value,price:Number(document.getElementById('price').value||0),image:document.getElementById('image').value,shopee:document.getElementById('shopee').value,vtLink:document.getElementById('vtLink').value.trim(),adminScore:sc,desc:document.getElementById('desc').value,notes:[...selected],gender:gs};if(editId){await db.collection('products').doc(editId).update(data); alert('terupdate');} else {data.ratingSum=0;data.ratingCount=0;data.createdAt=firebase.firestore.FieldValue.serverTimestamp(); await db.collection('products').add(data); alert('tersimpan');}document.getElementById('cancelEdit').click(); loadProducts(); sw(0);};
+window.testBanner=()=>{const u=document.getElementById('bannerUrl').value.trim(); document.getElementById('bannerPreview').innerHTML=u?`<img src="${u}" style="width:100%;border-radius:8px">`:'';};
+window.saveBanner=async()=>{const u=document.getElementById('bannerUrl').value.trim(); await db.collection('settings').doc('site').set({bannerUrl:u},{merge:true}); alert('tersimpan'); testBanner();};
+window.saveTiktok=async()=>{const u=document.getElementById('tiktokProfile').value.trim(); await db.collection('settings').doc('site').set({tiktokProfile:u},{merge:true}); alert('tersimpan');};
+(async()=>{try{const d=await db.collection('settings').doc('site').get(); if(d.exists){ if(d.data().bannerUrl){document.getElementById('bannerUrl').value=d.data().bannerUrl; testBanner();} if(d.data().tiktokProfile) document.getElementById('tiktokProfile').value=d.data().tiktokProfile; }}catch(e){}})();
+loadLib().then(loadProducts);
+}
+</script></body></html>

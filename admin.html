@@ -24,7 +24,7 @@ button.b.danger{background:#c00}
 button.small{padding:6px 10px;border-radius:7px;border:0;background:#111;color:#fff;cursor:pointer}
 .chk{display:inline-flex;align-items:center;gap:5px;margin:3px;border:1px solid #ddd;padding:7px 10px;border-radius:20px;cursor:pointer;background:#fff;font-size:13px;user-select:none}
 .chk.on{background:#111;color:#fff;border-color:#111}
-.chk input{display:none}
+.chk input{width:auto;margin:0;display:inline-block;accent-color:#111}
 .sectionBox{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:14px;margin:12px 0}
 .fieldTitle{font-weight:700;margin:15px 0 7px}
 .help{font-size:12px;color:#777;margin-top:2px}
@@ -138,20 +138,20 @@ button.small{padding:6px 10px;border-radius:7px;border:0;background:#111;color:#
     </div>
 
     <div class="fieldTitle">Karakter Aroma</div>
-    <div id="selectedCharacters" class="tagArea"></div>
+    <div id="characterChoices" class="tagArea"></div>
+    <div id="selectedCharacters" class="tagArea" style="margin-top:8px"></div>
     <div style="display:flex;gap:8px;margin-top:8px">
-      <input id="newCharacter" placeholder="Tambah karakter aroma..." style="flex:1">
+      <input id="newCharacter" placeholder="Ketik karakter baru..." style="flex:1">
       <button class="b" id="addCharacterBtn" style="width:60px">+</button>
     </div>
-    <div id="charSug"></div>
 
     <div class="fieldTitle">Cocok Untuk</div>
-    <div id="selectedOccasions" class="tagArea"></div>
+    <div id="occasionChoices" class="tagArea"></div>
+    <div id="selectedOccasions" class="tagArea" style="margin-top:8px"></div>
     <div style="display:flex;gap:8px;margin-top:8px">
-      <input id="newOccasion" placeholder="Tambah penggunaan/occasion..." style="flex:1">
+      <input id="newOccasion" placeholder="Ketik pilihan baru..." style="flex:1">
       <button class="b" id="addOccasionBtn" style="width:60px">+</button>
     </div>
-    <div id="occSug"></div>
   </div>
 
   <div class="sectionBox">
@@ -286,9 +286,9 @@ window.delCharacterLib=async(id,name)=>{if(!confirm('Yakin hapus '+name+'? Produ
 window.editOccasionLib=async(id,name)=>{const nv=prompt('Edit:',name);if(nv===null)return;const nn=nv.toLowerCase().trim();if(!nn)return;await db.collection('occasionLib').doc(id).update({name:nn});const ps=await db.collection('products').get();for(const d of ps.docs){const p=d.data();const a=getOccasions(p);if(a.some(x=>String(x).toLowerCase()===name.toLowerCase()))await db.collection('products').doc(d.id).update({suitableFor:a.map(x=>String(x).toLowerCase()===name.toLowerCase()?nn:x)});}await loadLibraries();await loadProducts();};
 window.delOccasionLib=async(id,name)=>{if(!confirm('Yakin hapus '+name+'? Produk yang memakai pilihan ini akan kehilangan pilihan tersebut.'))return;await db.collection('occasionLib').doc(id).delete();const ps=await db.collection('products').get();for(const d of ps.docs){const p=d.data();const a=getOccasions(p).filter(x=>String(x).toLowerCase()!==name.toLowerCase());if(a.length!==getOccasions(p).length)await db.collection('products').doc(d.id).update({suitableFor:a});}await loadLibraries();await loadProducts();};
 
-document.getElementById('libAdd').onclick=()=>{const i=document.getElementById('libInput');addLibrary('noteLib',i.value,()=>i.value='');};
-document.getElementById('charLibAdd').onclick=()=>{const i=document.getElementById('charLibInput');addLibrary('characterLib',i.value,()=>i.value='');};
-document.getElementById('occLibAdd').onclick=()=>{const i=document.getElementById('occLibInput');addLibrary('occasionLib',i.value,()=>i.value='');};
+document.getElementById('libAdd').onclick=async()=>{const i=document.getElementById('libInput');try{await addLibrary('noteLib',i.value,()=>i.value='');}catch(e){alert('Gagal menambah Notes: '+e.message);}};
+document.getElementById('charLibAdd').onclick=async()=>{const i=document.getElementById('charLibInput');try{await addLibrary('characterLib',i.value,()=>i.value='');}catch(e){alert('Gagal menambah Karakter Aroma: '+e.message);}};
+document.getElementById('occLibAdd').onclick=async()=>{const i=document.getElementById('occLibInput');try{await addLibrary('occasionLib',i.value,()=>i.value='');}catch(e){alert('Gagal menambah Cocok Untuk: '+e.message);}};
 document.getElementById('libInput').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('libAdd').click();}};
 document.getElementById('charLibInput').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('charLibAdd').click();}};
 document.getElementById('occLibInput').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('occLibAdd').click();}};
@@ -307,28 +307,66 @@ window.editVt=async id=>{const cur=(all.find(x=>x.id===id)||{}).vtLink||'';const
 window.delVt=async id=>{if(!confirm('Hapus link VT ini?'))return;await db.collection('products').doc(id).update({vtLink:''});loadProducts();};
 
 function renderTagSet(set,box,removeFn){box.innerHTML=[...set].sort().map(n=>`<span class="nchip">${escapeHtml(n)}<button class="nx" onclick="${removeFn}('${esc(n)}')">x</button></span>`).join('')||'<small style="color:#777">Belum ada</small>';}
-function renderAllSelections(){renderSel();renderCharacterSelections();renderOccasionSelections();}
-function renderSel(){renderTagSet(selected,document.getElementById('selBox'),'remSel');}
-function renderCharacterSelections(){renderTagSet(selectedCharacters,document.getElementById('selectedCharacters'),'remCharacter');}
-function renderOccasionSelections(){renderTagSet(selectedOccasions,document.getElementById('selectedOccasions'),'remOccasion');}
+
 window.remSel=n=>{selected.delete(n);renderSel();};
 window.remCharacter=n=>{selectedCharacters.delete(n);renderCharacterSelections();};
 window.remOccasion=n=>{selectedOccasions.delete(n);renderOccasionSelections();};
 
-document.querySelectorAll('#gBox .chk').forEach(l=>l.addEventListener('click',e=>{e.preventDefault();l.classList.toggle('on');l.querySelector('input').checked=l.classList.contains('on');}));
+document.querySelectorAll('#gBox .chk input').forEach(cb=>cb.addEventListener('change',()=>{const l=cb.closest('.chk');if(l)l.classList.toggle('on',cb.checked);}));
 
-function doAddToSet(value,set,collection,input,sug,render){value=String(value||'').toLowerCase().trim();if(!value)return;if(set.size>=20)return alert('Maksimal 20 pilihan');if(!set.has(value)){set.add(value);if(!([...(collection==='noteLib'?libNotes:collection==='characterLib'?libCharacters:libOccasions)].some(x=>x.name===value)))db.collection(collection).add({name:value}).then(loadLibraries);}input.value='';sug.style.display='none';render();}
+function renderChoiceChecks(items,set,box){
+  box.innerHTML=items.slice().sort().map(n=>`<label class="nrow"><input type="checkbox" data-choice="${escapeHtml(n)}" ${set.has(n)?'checked':''}> ${escapeHtml(n)}</label>`).join('')||'<small style="color:#777">Belum ada pilihan di library.</small>';
+  box.querySelectorAll('input[data-choice]').forEach(cb=>cb.onchange=()=>{const v=cb.dataset.choice;if(cb.checked)set.add(v);else set.delete(v);renderAllSelections();});
+}
+function renderAllSelections(){renderSel();renderCharacterSelections();renderOccasionSelections();}
+function renderSel(){renderTagSet(selected,document.getElementById('selBox'),'remSel');}
+function renderCharacterSelections(){renderChoiceChecks(allCharacters,selectedCharacters,document.getElementById('characterChoices'));renderTagSet(selectedCharacters,document.getElementById('selectedCharacters'),'remCharacter');}
+function renderOccasionSelections(){renderChoiceChecks(allOccasions,selectedOccasions,document.getElementById('occasionChoices'));renderTagSet(selectedOccasions,document.getElementById('selectedOccasions'),'remOccasion');}
+function doAddToSet(value,set,collection,input,sug,render){
+  const v=String(value||'').toLowerCase().trim();
+  if(!v)return;
+  if(set.size>=20&&!set.has(v))return alert('Maksimal 20 pilihan');
+  if(!set.has(v))set.add(v);
+  input.value='';
+  if(sug)sug.style.display='none';
+  render();
+  const libs=collection==='noteLib'?libNotes:collection==='characterLib'?libCharacters:libOccasions;
+  const exists=libs.some(x=>String(x.name||'').toLowerCase().trim()===v);
+  if(!exists){
+    db.collection(collection).add({name:v})
+      .then(()=>loadLibraries())
+      .catch(e=>alert('Gagal menambah ke Library: '+e.message));
+  }
+}
+async function addNewLibraryChoice(value,set,collection,input){
+  const v=String(value||'').toLowerCase().trim();
+  if(!v)return;
+  if(set.size>=20&&!set.has(v))return alert('Maksimal 20 pilihan');
+  if(!set.has(v))set.add(v);
+  input.value='';
+  renderAllSelections();
+  const libs=collection==='characterLib'?libCharacters:libOccasions;
+  const existing=libs.some(x=>String(x.name||'').toLowerCase().trim()===v);
+  if(!existing){
+    try{
+      await db.collection(collection).add({name:v});
+      await loadLibraries();
+    }catch(e){
+      alert('Gagal menambah ke Library: '+e.message);
+    }
+  }
+}
 const ni=document.getElementById('newNote'),sug=document.getElementById('sug');
-const ci=document.getElementById('newCharacter'),charSug=document.getElementById('charSug');
-const oi=document.getElementById('newOccasion'),occSug=document.getElementById('occSug');
+const ci=document.getElementById('newCharacter');
+const oi=document.getElementById('newOccasion');
 document.getElementById('addNoteBtn').onclick=()=>doAddToSet(ni.value,selected,'noteLib',ni,sug,renderSel);
-document.getElementById('addCharacterBtn').onclick=()=>doAddToSet(ci.value,selectedCharacters,'characterLib',ci,charSug,renderCharacterSelections);
-document.getElementById('addOccasionBtn').onclick=()=>doAddToSet(oi.value,selectedOccasions,'occasionLib',oi,occSug,renderOccasionSelections);
+document.getElementById('addCharacterBtn').onclick=()=>addNewLibraryChoice(ci.value,selectedCharacters,'characterLib',ci);
+document.getElementById('addOccasionBtn').onclick=()=>addNewLibraryChoice(oi.value,selectedOccasions,'occasionLib',oi);
 ni.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('addNoteBtn').click();}};
 ci.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('addCharacterBtn').click();}};
 oi.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('addOccasionBtn').click();}};
 function setupSuggest(input,box,items,set,render){input.oninput=()=>{const v=input.value.toLowerCase().trim();if(!v){box.style.display='none';return;}const m=items.map(x=>x.name||x).filter(n=>n.toLowerCase().includes(v)&&!set.has(n)).slice(0,8);if(!m.length){box.style.display='none';return;}box.innerHTML=m.map(n=>`<div data-v="${escapeHtml(n)}">${escapeHtml(n)}</div>`).join('');box.style.display='block';box.querySelectorAll('div').forEach(d=>d.onclick=()=>{set.add(d.dataset.v);input.value='';box.style.display='none';render();});};}
-setupSuggest(ni,sug,libNotes,selected,renderSel);setupSuggest(ci,charSug,libCharacters,selectedCharacters,renderCharacterSelections);setupSuggest(oi,occSug,libOccasions,selectedOccasions,renderOccasionSelections);
+setupSuggest(ni,sug,libNotes,selected,renderSel);
 
 async function openDetail(id){const d=await db.collection('products').doc(id).get();if(!d.exists)return;const p={id:d.id,...d.data()};document.getElementById('listV').style.display='none';const det=document.getElementById('detail');det.style.display='block';const nchips=arr(p.notes).map(n=>`<span class="nchip">${escapeHtml(n)}<button class="nx" onclick="delNote('${esc(id)}','${esc(n)}')">x</button></span>`).join('');const cchips=getCharacters(p).map(n=>`<span class="nchip">${escapeHtml(n)}</span>`).join('');const ochips=getOccasions(p).map(n=>`<span class="nchip">${escapeHtml(n)}</span>`).join('');const rs=await db.collection('products').doc(id).collection('reviews').orderBy('createdAt','desc').get();const revs=rs.docs.map(rd=>{const r=rd.data();const vtb=r.vtLink?` <button class="vtbtn" onclick="openVt('${esc(r.vtLink)}')">Lihat VT Review Ku</button>`:'';return `<div class="rev"><div><b>${escapeHtml(r.name||'')}</b> - ⭐${escapeHtml(r.score)}${vtb}</div><div style="margin-top:4px">${escapeHtml(r.text||'')}</div><button onclick="delRev('${esc(id)}','${esc(rd.id)}')" style="background:#c00;color:#fff;border:0;padding:4px 8px;border-radius:6px;margin-top:6px">Hapus ulasan</button></div>`;}).join('')||'<small>Belum ada ulasan</small>';const prodVt=p.vtLink?`<button class="b" style="margin-top:8px;background:#000" onclick="openVt('${esc(p.vtLink)}')">Test Buka VT Produk</button>`:'';det.innerHTML=`<button class="b" onclick="renderGrid()">← Kembali</button> <button class="b" onclick="startEdit('${esc(id)}')">Edit</button> <button class="b danger" onclick="delP('${esc(id)}')">Delete</button><img src="${escapeHtml(p.image||'https://via.placeholder.com/600')}" style="margin-top:10px" onerror="this.src='https://via.placeholder.com/600'"><h2>${escapeHtml(p.name||'')}</h2><p><b>${escapeHtml(p.brand||'')}</b> • ⭐ ${avg(p)}/10 • ${Number(p.ratingCount||0)} ulasan • ${rp(p.price)}</p><p>${escapeHtml(p.desc||'')}</p><p><b>Gender:</b> ${escapeHtml(arr(p.gender).join(', ')||'-')}</p><p><b>Karakter Aroma:</b><br>${cchips||'<small>belum ada</small>'}</p><p><b>Cocok Untuk:</b><br>${ochips||'<small>belum ada</small>'}</p><p><small>VT: ${escapeHtml(p.vtLink||'-')}</small></p>${prodVt}<h4>Notes</h4><div>${nchips||'<small>belum ada</small>'}</div><h4>Ulasan Pengunjung</h4>${revs}<div style="height:80px"></div>`;window.scrollTo({top:0,behavior:'smooth'});}
 window.delNote=async(id,note)=>{const d=await db.collection('products').doc(id).get();const ns=arr(d.data().notes).filter(x=>x!==note);await db.collection('products').doc(id).update({notes:ns});await loadProducts();openDetail(id);};

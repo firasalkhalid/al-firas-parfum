@@ -32,7 +32,7 @@ button.small{padding:6px 10px;border-radius:7px;border:0;background:#111;color:#
 .card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.1);cursor:pointer}
 .card img{width:100%;height:140px;object-fit:cover;background:#eee}.card .in{padding:9px}
 #detail{display:none;background:#fff;border-radius:12px;padding:16px;margin-bottom:80px}
-#detail img{width:100%;height:auto;max-height:520px;object-fit:contain;border-radius:10px;background:#f9f9f9}
+#detail img{width:100%;height:auto;max-height:520px;object-fit:contain;border-radius:10px;background:#f9f9f9}.detailHeroAdmin{display:grid;grid-template-columns:minmax(280px,1fr) minmax(300px,1fr);gap:24px;align-items:start}.detailLeftAdmin{min-width:0}.detailRightAdmin{min-width:0}.detailDescAdmin{margin-top:16px;padding-top:14px;border-top:1px solid #eee;line-height:1.7;color:#555;white-space:pre-line}.detailInfoBlock{margin:16px 0;padding-top:14px;border-top:1px solid #eee}.detailInfoTitle{text-transform:uppercase;letter-spacing:.7px;color:#888;font-weight:800;font-size:12px;margin-bottom:8px}.detailOccGroup{margin-bottom:11px}.detailOccGroup strong{display:block;font-size:12px;color:#777;margin-bottom:6px}.formBlock2Grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}.formInputCol,.formSelectedCol{min-width:0}.formSelectedCol{background:#fafafa;border:1px solid #eee;border-radius:10px;padding:10px}.formSelectedTitle{font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:#888;margin:4px 0 8px}.formInputCol .tagArea{background:#fff}.formSelectedCol .tagArea{background:#fff}.formOccasionSelected{margin-top:8px}.formOccasionSelected .nchip{margin:4px 4px 0 0}.occasionLevels{display:grid;gap:10px}.occasionLevelBox{display:block;border:0;padding:0;background:transparent}.occasionLevelTitle{font-weight:700;padding:8px 0 6px}.occasionLevelChoices{display:flex;flex-wrap:wrap;gap:6px}.occasionChoice{border:1px solid #ddd;background:#fff;color:#333;border-radius:999px;padding:7px 10px;cursor:pointer;font-size:12px}.occasionChoice.on{border-color:#222;background:#222;color:#fff}
 .nchip{display:inline-flex;align-items:center;background:#eee;padding:6px 10px;border-radius:20px;margin:4px;font-size:13px}
 .nx{background:#c00;color:#fff;border:0;border-radius:50%;width:20px;height:20px;font-size:12px;margin-left:6px;cursor:pointer}
 #sug,#charSug,#occSug{border:1px solid #ddd;border-radius:8px;background:#fff;max-height:160px;overflow-y:auto;display:none}
@@ -53,7 +53,8 @@ button.small{padding:6px 10px;border-radius:7px;border:0;background:#111;color:#
 .libTabs{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}.libTabs button{padding:8px 12px;border:1px solid #ddd;background:#fff;border-radius:8px;cursor:pointer}.libTabs button.on{background:#111;color:#fff}
 .libPage{display:none}.libPage.on{display:block}
 .tagArea{min-height:42px;border:1px solid #eee;border-radius:8px;padding:5px;background:#fafafa}
-@media(max-width:768px){#grid{grid-template-columns:repeat(2,1fr)}.ddPanel{width:230px}.filterBar #q,.filterBar #fBrand{max-width:none;width:100%}.filterBar .dd{max-width:none;width:100%}.page{padding:12px}}
+.occasionLevels{display:grid;gap:10px}.occasionLevelBox{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:start;border:1px solid #eee;border-radius:10px;padding:10px;background:#fafafa}.occasionLevelTitle{font-weight:700;padding-top:7px}.occasionLevelChoices{display:flex;flex-wrap:wrap;gap:6px}.occasionChoice{border:1px solid #ddd;background:#fff;color:#333;border-radius:8px;padding:7px 10px;cursor:pointer;font-size:12px}.occasionChoice.on{border-color:#222;background:#222;color:#fff}.occasionLevelBox .nrow{display:inline-flex;margin:2px 4px 2px 0;background:#fff}
+@media(max-width:768px){.detailHeroAdmin{grid-template-columns:1fr}.formBlock2Grid{grid-template-columns:1fr}#grid{grid-template-columns:repeat(2,1fr)}.ddPanel{width:230px}.filterBar #q,.filterBar #fBrand{max-width:none;width:100%}.filterBar .dd{max-width:none;width:100%}.page{padding:12px}}
 </style>
 </head>
 <body>
@@ -67,149 +68,149 @@ button.small{padding:6px 10px;border-radius:7px;border:0;background:#111;color:#
 </div>
 
 <div class="page on" id="p0">
-  <div class="filterBar">
-    <input id="q" placeholder="Cari nama parfum...">
-    <select id="fBrand"><option value="">Semua Brand</option></select>
-    <div class="dd" id="genderDD">
-      <button class="ddBtn" id="genderBtn" type="button">Semua Gender ▾</button>
-      <div class="ddPanel" id="genderPanel">
-        <label class="nall"><input type="checkbox" id="genderAll" checked> Semua Gender</label>
-        <div class="ddList" id="genderList">
-          <label class="nrow"><input type="checkbox" data-g="pria"> Pria</label>
-          <label class="nrow"><input type="checkbox" data-g="wanita"> Wanita</label>
-          <label class="nrow"><input type="checkbox" data-g="unisex"> Unisex</label>
-        </div>
-      </div>
-    </div>
-    <div class="dd" id="notesDD">
-      <button class="ddBtn" id="notesBtn" type="button">Semua Notes ▾</button>
-      <div class="ddPanel" id="notesPanel">
-        <input class="ddSearch" id="notesSearch" placeholder="Ketik notes...">
-        <label class="nall"><input type="checkbox" id="notesAll" checked> Semua Notes</label>
-        <div class="ddList" id="notesList"></div>
-      </div>
-    </div>
-    <div class="dd" id="charDD">
-      <button class="ddBtn" id="charBtn" type="button">Semua Karakter Aroma ▾</button>
-      <div class="ddPanel" id="charPanel">
-        <input class="ddSearch" id="charSearch" placeholder="Ketik karakter aroma...">
-        <label class="nall"><input type="checkbox" id="charAll" checked> Semua Karakter</label>
-        <div class="ddList" id="charList"></div>
-      </div>
-    </div>
-    <div class="dd" id="occDD">
-      <button class="ddBtn" id="occBtn" type="button">Semua Cocok Untuk ▾</button>
-      <div class="ddPanel" id="occPanel">
-        <input class="ddSearch" id="occSearch" placeholder="Ketik penggunaan...">
-        <label class="nall"><input type="checkbox" id="occAll" checked> Semua Cocok Untuk</label>
-        <div class="ddList" id="occList"></div>
-      </div>
-    </div>
-  </div>
-  <div id="listV">
-    <div id="grid"></div>
-    <div style="text-align:center;margin:18px 12px 70px">
-      <button class="b" id="btnMore">Lebih banyak</button>
-      <button class="b secondary" id="btnLess" style="display:none">Lebih sedikit</button>
-    </div>
-  </div>
-  <div id="detail"></div>
+<div class="filterBar">
+<input id="q" placeholder="Cari nama parfum...">
+<select id="fBrand"><option value="">Semua Brand</option></select>
+<div class="dd" id="genderDD">
+<button class="ddBtn" id="genderBtn" type="button">Semua Gender ▾</button>
+<div class="ddPanel" id="genderPanel">
+<label class="nall"><input type="checkbox" id="genderAll" checked> Semua Gender</label>
+<div class="ddList" id="genderList">
+<label class="nrow"><input type="checkbox" data-g="pria"> Pria</label>
+<label class="nrow"><input type="checkbox" data-g="wanita"> Wanita</label>
+<label class="nrow"><input type="checkbox" data-g="unisex"> Unisex</label>
+</div>
+</div>
+</div>
+<div class="dd" id="notesDD">
+<button class="ddBtn" id="notesBtn" type="button">Semua Notes ▾</button>
+<div class="ddPanel" id="notesPanel">
+<input class="ddSearch" id="notesSearch" placeholder="Ketik notes...">
+<label class="nall"><input type="checkbox" id="notesAll" checked> Semua Notes</label>
+<div class="ddList" id="notesList"></div>
+</div>
+</div>
+<div class="dd" id="charDD">
+<button class="ddBtn" id="charBtn" type="button">Semua Karakter Aroma ▾</button>
+<div class="ddPanel" id="charPanel">
+<input class="ddSearch" id="charSearch" placeholder="Ketik karakter aroma...">
+<label class="nall"><input type="checkbox" id="charAll" checked> Semua Karakter</label>
+<div class="ddList" id="charList"></div>
+</div>
+</div>
+<div class="dd" id="occDD">
+<button class="ddBtn" id="occBtn" type="button">Semua Cocok Untuk ▾</button>
+<div class="ddPanel" id="occPanel">
+<input class="ddSearch" id="occSearch" placeholder="Ketik penggunaan...">
+<label class="nall"><input type="checkbox" id="occAll" checked> Semua Cocok Untuk</label>
+<div class="ddList" id="occList"></div>
+</div>
+</div>
+</div>
+<div id="listV">
+<div id="grid"></div>
+<div style="text-align:center;margin:18px 12px 70px">
+<button class="b" id="btnMore">Lebih banyak</button>
+<button class="b secondary" id="btnLess" style="display:none">Lebih sedikit</button>
+</div>
+</div>
+<div id="detail"></div>
 </div>
 
 <div class="page" id="p1">
-  <h3 id="formTitle">Tambah Produk</h3>
-  <div class="sectionBox">
-    <input id="name" placeholder="Nama *">
-    <input id="brand" placeholder="Brand">
-    <input id="price" type="number" placeholder="Harga">
-    <input id="image" placeholder="URL Gambar">
-    <input id="shopee" placeholder="Link Shopee">
-    <input id="vtLink" placeholder="Link VT TikTok Review">
-    <input id="adminScore" type="number" step="0.1" min="1" max="10" placeholder="Score Admin 1-10">
-    <textarea id="desc" placeholder="Deskripsi"></textarea>
-  </div>
+<h3 id="formTitle">Tambah Produk</h3>
+<div class="sectionBox">
+<input id="name" placeholder="Nama *">
+<input id="brand" placeholder="Brand">
+<input id="price" type="number" placeholder="Harga">
+<input id="image" placeholder="URL Gambar">
+<input id="shopee" placeholder="Link Shopee">
+<input id="vtLink" placeholder="Link VT TikTok Review">
+<input id="adminScore" type="number" step="0.1" min="1" max="10" placeholder="Score Admin 1-10">
+<textarea id="desc" placeholder="Deskripsi"></textarea>
+<div class="fieldTitle">Gender</div>
+<div id="gBox">
+<label class="chk"><input type="checkbox" value="pria"> pria</label>
+<label class="chk"><input type="checkbox" value="wanita"> wanita</label>
+<label class="chk"><input type="checkbox" value="unisex"> unisex</label>
+</div>
+</div>
 
-  <div class="sectionBox">
-    <div class="fieldTitle">Gender</div>
-    <div id="gBox">
-      <label class="chk"><input type="checkbox" value="pria"> pria</label>
-      <label class="chk"><input type="checkbox" value="wanita"> wanita</label>
-      <label class="chk"><input type="checkbox" value="unisex"> unisex</label>
-    </div>
+<div class="sectionBox">
+<div class="formBlock2Grid">
+<div class="formInputCol">
+<div class="fieldTitle" style="margin-top:0">Notes</div>
+<div style="display:flex;gap:8px"><input id="newNote" placeholder="Ketik notes..." style="flex:1"><button class="b" id="addNoteBtn" style="width:60px">+</button></div>
+<div id="sug"></div>
 
-    <div class="fieldTitle">Karakter Aroma</div>
-    <div id="characterChoices" class="tagArea"></div>
-    <div id="selectedCharacters" class="tagArea" style="margin-top:8px"></div>
-    <div style="display:flex;gap:8px;margin-top:8px">
-      <input id="newCharacter" placeholder="Ketik karakter baru..." style="flex:1">
-      <button class="b" id="addCharacterBtn" style="width:60px">+</button>
-    </div>
+<div class="fieldTitle">Karakter Aroma</div>
+<div style="display:flex;gap:8px"><input id="newCharacter" placeholder="Ketik karakter baru..." style="flex:1"><button class="b" id="addCharacterBtn" style="width:60px">+</button></div>
+<div id="characterChoices" class="tagArea" style="margin-top:8px"></div>
 
-    <div class="fieldTitle">Cocok Untuk</div>
-    <div id="occasionChoices" class="tagArea"></div>
-    <div id="selectedOccasions" class="tagArea" style="margin-top:8px"></div>
-    <div style="display:flex;gap:8px;margin-top:8px">
-      <input id="newOccasion" placeholder="Ketik pilihan baru..." style="flex:1">
-      <button class="b" id="addOccasionBtn" style="width:60px">+</button>
-    </div>
-  </div>
+<div class="fieldTitle">Cocok Untuk</div>
+<div class="help">Klik occasion untuk memilih level. Klik pilihan yang sama lagi untuk membatalkan.</div>
+<div class="occasionLevels">
+<div class="occasionLevelBox"><div class="occasionLevelTitle">⭐ Sangat Cocok</div><div class="occasionLevelChoices" id="occasionLevel3"></div></div>
+<div class="occasionLevelBox"><div class="occasionLevelTitle">✓ Cocok</div><div class="occasionLevelChoices" id="occasionLevel2"></div></div>
+<div class="occasionLevelBox"><div class="occasionLevelTitle">— Kurang Cocok</div><div class="occasionLevelChoices" id="occasionLevel1"></div></div>
+</div>
+</div>
 
-  <div class="sectionBox">
-    <div class="fieldTitle">Notes Terpilih</div>
-    <div id="selBox" class="tagArea"></div>
-    <div class="fieldTitle">Tambah Notes</div>
-    <div style="display:flex;gap:8px">
-      <input id="newNote" placeholder="Ketik notes..." style="flex:1">
-      <button class="b" id="addNoteBtn" style="width:60px">+</button>
-    </div>
-    <div id="sug"></div>
-  </div>
+<div class="formSelectedCol">
+<div class="formSelectedTitle">Notes Terpilih</div>
+<div id="selBox" class="tagArea"></div>
+<div class="formSelectedTitle" style="margin-top:18px">Karakter Terpilih</div>
+<div id="selectedCharacters" class="tagArea"></div>
+<div class="formSelectedTitle" style="margin-top:18px">Occasion Terpilih</div>
+<div id="selectedOccasions" class="tagArea formOccasionSelected"></div>
+</div>
+</div>
+</div>
 
-  <button class="b" id="save" style="width:100%;margin-top:4px">Simpan Produk</button>
-  <button class="b secondary" id="cancelEdit" style="width:100%;margin-top:8px;display:none">Batal Edit</button>
+<button class="b" id="save" style="width:100%;margin-top:4px">Simpan Produk</button>
+<button class="b secondary" id="cancelEdit" style="width:100%;margin-top:8px;display:none">Batal Edit</button>
 </div>
 
 <div class="page" id="p2">
-  <h3>Library</h3>
-  <div class="libTabs">
-    <button class="on" data-lib="notes">Notes</button>
-    <button data-lib="characters">Karakter Aroma</button>
-    <button data-lib="occasions">Cocok Untuk</button>
-  </div>
-  <div class="libPage on" id="libNotesPage">
-    <h4>Library Notes</h4>
-    <div style="display:flex;gap:8px"><input id="libInput" placeholder="Ketik + Enter" style="flex:1"><button class="b" id="libAdd">+</button></div>
-    <div id="libList" style="margin-top:12px"></div>
-  </div>
-  <div class="libPage" id="libCharactersPage">
-    <h4>Library Karakter Aroma</h4>
-    <div style="display:flex;gap:8px"><input id="charLibInput" placeholder="Ketik + Enter" style="flex:1"><button class="b" id="charLibAdd">+</button></div>
-    <div id="charLibList" style="margin-top:12px"></div>
-  </div>
-  <div class="libPage" id="libOccasionsPage">
-    <h4>Library Cocok Untuk</h4>
-    <div style="display:flex;gap:8px"><input id="occLibInput" placeholder="Ketik + Enter" style="flex:1"><button class="b" id="occLibAdd">+</button></div>
-    <div id="occLibList" style="margin-top:12px"></div>
-  </div>
+<h3>Library</h3>
+<div class="libTabs">
+<button class="on" data-lib="notes">Notes</button>
+<button data-lib="characters">Karakter Aroma</button>
+<button data-lib="occasions">Cocok Untuk</button>
+</div>
+<div class="libPage on" id="libNotesPage">
+<h4>Library Notes</h4>
+<div style="display:flex;gap:8px"><input id="libInput" placeholder="Ketik + Enter" style="flex:1"><button class="b" id="libAdd">+</button></div>
+<div id="libList" style="margin-top:12px"></div>
+</div>
+<div class="libPage" id="libCharactersPage">
+<h4>Library Karakter Aroma</h4>
+<div style="display:flex;gap:8px"><input id="charLibInput" placeholder="Ketik + Enter" style="flex:1"><button class="b" id="charLibAdd">+</button></div>
+<div id="charLibList" style="margin-top:12px"></div>
+</div>
+<div class="libPage" id="libOccasionsPage">
+<h4>Library Cocok Untuk</h4>
+<div style="display:flex;gap:8px"><input id="occLibInput" placeholder="Ketik occasion + Enter" style="flex:1"><button class="b" id="occLibAdd">+</button></div>
+<div id="occLibList" style="margin-top:12px"></div>
+</div>
 </div>
 
 <div class="page" id="p3">
-  <h3>Links</h3>
-  <label>Link Profil TikTok</label>
-  <input id="tiktokProfile" placeholder="https://tiktok.com/@...">
-  <button class="b" onclick="saveTiktok()">Simpan</button>
-  <hr style="margin:20px 0">
-  <h3>Link VT Review TikTok per Produk</h3>
-  <div id="vtList" style="margin-top:12px"></div>
+<h3>Links</h3>
+<label>Link Profil TikTok</label>
+<input id="tiktokProfile" placeholder="https://tiktok.com/@...">
+<button class="b" onclick="saveTiktok()">Simpan</button>
+<hr style="margin:20px 0">
+<h3>Link VT Review TikTok per Produk</h3>
+<div id="vtList" style="margin-top:12px"></div>
 </div>
 
 <div class="page" id="p4">
-  <h3>Banner</h3>
-  <input id="bannerUrl" placeholder="https://...">
-  <div style="display:flex;gap:8px"><button class="b" onclick="saveBanner()">Simpan</button><button class="b secondary" onclick="testBanner()">Preview</button></div>
-  <div id="bannerPreview" style="margin-top:10px"></div>
+<h3>Banner</h3>
+<input id="bannerUrl" placeholder="https://...">
+<div style="display:flex;gap:8px"><button class="b" onclick="saveBanner()">Simpan</button><button class="b secondary" onclick="testBanner()">Preview</button></div>
+<div id="bannerPreview" style="margin-top:10px"></div>
 </div>
-
 <div id="vtPop"><div class="box"><h3 style="margin:0">Buka VT Review</h3><div id="vtLinkText"></div><div style="display:flex;gap:8px"><button class="b" id="vtOpen" style="flex:1">Buka Link</button><button class="b" id="vtCopy" style="flex:1;background:#333">Copy Link</button></div><button class="b secondary" id="vtClose" style="width:100%;margin-top:8px">Tutup</button></div></div>
 
 <script>
@@ -217,17 +218,21 @@ const firebaseConfig={apiKey:"AIzaSyAdz_Kdu7r_nxFw1LAUJCBCzIZd7aZKnp4",authDomai
 firebase.initializeApp(firebaseConfig);
 const db=firebase.firestore();
 const ALLOWED_ADMIN="firasalkhalid@gmail.com";
+const DEFAULT_OCCASION_LABELS={'daily':'Daily','date':'Date','kerja':'Kerja','liburan/jalan-jalan':'Liburan / Jalan-jalan','meeting':'Meeting','nongkrong':'Nongkrong','olahraga':'Olahraga','sekolah/kuliah':'Sekolah / Kuliah','wedding/kondangan':'Wedding / Kondangan'};
+const DEFAULT_OCCASION_CATALOG=Object.keys(DEFAULT_OCCASION_LABELS);
+let OCCASION_CATALOG=[...DEFAULT_OCCASION_CATALOG];
+let OCCASION_LABELS={...DEFAULT_OCCASION_LABELS};
+const OCCASION_LEVELS={3:'Sangat Cocok',2:'Cocok',1:'Kurang Cocok'};
 let authOK=false;
-
 firebase.auth().onAuthStateChanged(function(user){
-  if(!user||user.email!==ALLOWED_ADMIN){if(user)firebase.auth().signOut();location.href='index.html';return;}
-  if(authOK)return;authOK=true;initAdmin();
+if(!user||user.email!==ALLOWED_ADMIN){if(user)firebase.auth().signOut();location.href='index.html';return;}
+if(authOK)return;authOK=true;initAdmin();
 });
 document.getElementById('logoutBtn').onclick=()=>firebase.auth().signOut().then(()=>location.href='index.html');
 
 function initAdmin(){
-let all=[],showN=25,editId=null,selected=new Set(),selectedCharacters=new Set(),selectedOccasions=new Set();
-let libNotes=[],libCharacters=[],libOccasions=[],allNotes=[],allCharacters=[],allOccasions=[];
+let all=[],showN=25,editId=null,selected=new Set(),selectedCharacters=new Set(),selectedOccasions={};
+let libNotes=[],libCharacters=[],libOccasions=[],allNotes=[],allCharacters=[],allOccasions=[...OCCASION_CATALOG];
 let selG0=new Set(),selNotes=new Set(),selCharacters=new Set(),selOccasions=new Set(),curVt='';
 
 const esc=s=>String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
@@ -235,9 +240,10 @@ const arr=v=>Array.isArray(v)?v:(v==null||v===''?[]:[v]);
 const lowerArr=v=>arr(v).map(x=>String(x).toLowerCase().trim()).filter(Boolean);
 function getCharacters(p){for(const k of ['characters','character','karakterAroma','karakter']){if(p[k]!==undefined&&p[k]!==null){const a=arr(p[k]);if(a.length)return a}}return[];}
 function getOccasions(p){for(const k of ['suitableFor','occasion','occasions','cocokUntuk']){if(p[k]!==undefined&&p[k]!==null){const a=arr(p[k]);if(a.length)return a}}return[];}
+function getOccasionLevels(p){const raw=p.occasionLevels;if(raw&&typeof raw==='object'&&!Array.isArray(raw))return raw;const legacy=getOccasions(p),o={};legacy.forEach(x=>{const k=String(x).toLowerCase().trim();if(OCCASION_CATALOG.includes(k))o[k]=2});return o;}
+function occasionLabel(k){return OCCASION_LABELS[k]||k;}
 function rp(n){return 'Rp '+Number(n||0).toLocaleString('id-ID');}
 function avg(p){const hasAdmin=Number(p.adminScore||0)>0,c=Number(p.ratingCount||0),s=Number(p.ratingSum||0);if(hasAdmin&&c===0)return Number(p.adminScore).toFixed(1);if(hasAdmin&&c>0)return((Number(p.adminScore)+s)/(1+c)).toFixed(1);if(!hasAdmin&&c>0)return(s/c).toFixed(1);return'-';}
-
 function sw(i){document.querySelectorAll('#tabs button').forEach((b,k)=>b.classList.toggle('on',k===i));document.querySelectorAll('.page').forEach((p,k)=>p.classList.toggle('on',k===i));window.scrollTo({top:0,behavior:'smooth'});}
 window.sw=sw;
 
@@ -246,21 +252,18 @@ window.openVt=openVt;
 document.getElementById('vtClose').onclick=()=>document.getElementById('vtPop').style.display='none';
 document.getElementById('vtOpen').onclick=()=>{if(curVt)window.open(curVt,'_blank');};
 document.getElementById('vtCopy').onclick=async()=>{try{await navigator.clipboard.writeText(curVt);alert('Link tercopy!');}catch(e){const t=document.createElement('textarea');t.value=curVt;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();alert('Link tercopy!');}};
-
 function setupDropdown(btn,panel,root){btn.onclick=e=>{e.stopPropagation();const open=panel.style.display==='flex';closeDropdowns();if(!open)panel.style.display='flex';};document.addEventListener('click',e=>{if(!root.contains(e.target))panel.style.display='none';});}
 function closeDropdowns(){document.querySelectorAll('.ddPanel').forEach(x=>x.style.display='none');}
 setupDropdown(document.getElementById('genderBtn'),document.getElementById('genderPanel'),document.getElementById('genderDD'));
 setupDropdown(document.getElementById('notesBtn'),document.getElementById('notesPanel'),document.getElementById('notesDD'));
 setupDropdown(document.getElementById('charBtn'),document.getElementById('charPanel'),document.getElementById('charDD'));
 setupDropdown(document.getElementById('occBtn'),document.getElementById('occPanel'),document.getElementById('occDD'));
-
-function updateLabel(btn,set,empty,one){if(!set.size)btn.textContent=empty+' ▾';else if(set.size===1)btn.textContent=[...set][0]+' ▾';else btn.textContent=set.size+' dipilih ▾';}
+function updateLabel(btn,set,empty,one){if(!set.size)btn.textContent=empty+' ▾';else if(set.size===1)btn.textContent=occasionLabel([...set][0])+' ▾';else btn.textContent=set.size+' dipilih ▾';}
 
 const genderAll=document.getElementById('genderAll');
 genderAll.onchange=()=>{if(genderAll.checked){selG0.clear();document.querySelectorAll('#genderList input').forEach(x=>x.checked=false);updateLabel(document.getElementById('genderBtn'),selG0,'Semua Gender');renderGrid();}else genderAll.checked=true;};
 document.querySelectorAll('#genderList input').forEach(cb=>cb.onchange=()=>{if(cb.checked)selG0.add(cb.dataset.g);else selG0.delete(cb.dataset.g);genderAll.checked=selG0.size===0;updateLabel(document.getElementById('genderBtn'),selG0,'Semua Gender');showN=25;renderGrid();});
-
-function renderDDList(list,selected,listEl,allCb,btn,empty,filter){const f=list.filter(n=>!filter||n.toLowerCase().includes(filter));listEl.innerHTML=f.map(n=>`<label class="nrow"><input type="checkbox" data-v="${escapeHtml(n)}" ${selected.has(n)?'checked':''}> ${escapeHtml(n)}</label>`).join('')||'<div style="padding:8px"><small>Tidak ketemu</small></div>';listEl.querySelectorAll('input').forEach(cb=>cb.onchange=()=>{const v=cb.dataset.v;if(cb.checked)selected.add(v);else selected.delete(v);allCb.checked=selected.size===0;updateLabel(btn,selected,empty);showN=25;renderGrid();});}
+function renderDDList(list,selected,listEl,allCb,btn,empty,filter){const f=list.filter(n=>!filter||n.toLowerCase().includes(filter));listEl.innerHTML=f.map(n=>`<label class="nrow"><input type="checkbox" data-v="${escapeHtml(n)}" ${selected.has(n)?'checked':''}> ${escapeHtml(occasionLabel(n))}</label>`).join('')||'<div style="padding:8px"><small>Tidak ketemu</small></div>';listEl.querySelectorAll('input').forEach(cb=>cb.onchange=()=>{const v=cb.dataset.v;if(cb.checked)selected.add(v);else selected.delete(v);allCb.checked=selected.size===0;updateLabel(btn,selected,empty);showN=25;renderGrid();});}
 function escapeHtml(v){return String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');}
 
 const notesBtn=document.getElementById('notesBtn'),notesPanel=document.getElementById('notesPanel'),notesSearch=document.getElementById('notesSearch'),notesList=document.getElementById('notesList'),notesAll=document.getElementById('notesAll');
@@ -274,117 +277,92 @@ charAll.onchange=()=>{if(charAll.checked){selCharacters.clear();renderDDList(all
 occAll.onchange=()=>{if(occAll.checked){selOccasions.clear();renderDDList(allOccasions,selOccasions,occList,occAll,occBtn,'Semua Cocok Untuk',occSearch.value.toLowerCase().trim());renderGrid();}else occAll.checked=true;};
 
 async function getLib(name){try{const s=await db.collection(name).get();return s.docs.map(d=>({id:d.id,...d.data()}));}catch(e){return[];}}
-async function loadLibraries(){libNotes=await getLib('noteLib');libCharacters=await getLib('characterLib');libOccasions=await getLib('occasionLib');allNotes=[...new Set(libNotes.map(x=>x.name).filter(Boolean))].sort();allCharacters=[...new Set(libCharacters.map(x=>x.name).filter(Boolean))].sort();allOccasions=[...new Set(libOccasions.map(x=>x.name).filter(Boolean))].sort();renderDDList(allNotes,selNotes,notesList,notesAll,notesBtn,'Semua Notes',notesSearch.value.toLowerCase().trim());renderDDList(allCharacters,selCharacters,charList,charAll,charBtn,'Semua Karakter Aroma',charSearch.value.toLowerCase().trim());renderDDList(allOccasions,selOccasions,occList,occAll,occBtn,'Semua Cocok Untuk',occSearch.value.toLowerCase().trim());renderAllLibraries();renderAllSelections();}
+async function loadLibraries(){
+libNotes=await getLib('noteLib');libCharacters=await getLib('characterLib');libOccasions=await getLib('occasionLib');
+if(!libOccasions.length){try{const batch=db.batch();DEFAULT_OCCASION_CATALOG.forEach(name=>batch.set(db.collection('occasionLib').doc(),{name}));await batch.commit();libOccasions=await getLib('occasionLib');}catch(e){libOccasions=[];}}
+OCCASION_CATALOG=[...new Set(libOccasions.map(x=>String(x.name||'').toLowerCase().trim()).filter(Boolean))].sort();
+OCCASION_LABELS={};OCCASION_CATALOG.forEach(k=>OCCASION_LABELS[k]=DEFAULT_OCCASION_LABELS[k]||k);
+allNotes=[...new Set(libNotes.map(x=>x.name).filter(Boolean))].sort();allCharacters=[...new Set(libCharacters.map(x=>x.name).filter(Boolean))].sort();allOccasions=[...OCCASION_CATALOG];
+renderDDList(allNotes,selNotes,notesList,notesAll,notesBtn,'Semua Notes',notesSearch.value.toLowerCase().trim());renderDDList(allCharacters,selCharacters,charList,charAll,charBtn,'Semua Karakter Aroma',charSearch.value.toLowerCase().trim());renderDDList(allOccasions,selOccasions,occList,occAll,occBtn,'Semua Cocok Untuk',occSearch.value.toLowerCase().trim());renderAllLibraries();renderAllSelections();}
 
 function renderLibRows(items,box,editFn,delFn,empty){box.innerHTML=items.slice().sort((a,b)=>a.name.localeCompare(b.name)).map(x=>`<div class="noteRow"><span>${escapeHtml(x.name)}</span><span class="actions"><button class="small" onclick="${editFn}('${esc(x.id)}','${esc(x.name)}')">Edit</button> <button class="small danger" onclick="${delFn}('${esc(x.id)}','${esc(x.name)}')">Hapus</button></span></div>`).join('')||`<small>${empty}</small>`;}
-function renderAllLibraries(){renderLibRows(libNotes,document.getElementById('libList'),'editNoteLib','delNoteLib','Belum ada notes');renderLibRows(libCharacters,document.getElementById('charLibList'),'editCharacterLib','delCharacterLib','Belum ada karakter aroma');renderLibRows(libOccasions,document.getElementById('occLibList'),'editOccasionLib','delOccasionLib','Belum ada pilihan cocok untuk');}
+function renderAllLibraries(){renderLibRows(libNotes,document.getElementById('libList'),'editNoteLib','delNoteLib','Belum ada notes');renderLibRows(libCharacters,document.getElementById('charLibList'),'editCharacterLib','delCharacterLib','Belum ada karakter aroma');renderLibRows(libOccasions,document.getElementById('occLibList'),'editOccasionLib','delOccasionLib','Belum ada occasion');}
 async function addLibrary(collection,name,after){name=String(name||'').toLowerCase().trim();if(!name)return;if((await db.collection(collection).where('name','==',name).get()).size)return alert('Sudah ada');await db.collection(collection).add({name});await loadLibraries();if(after)after();}
 window.editNoteLib=async(id,name)=>{const nv=prompt('Edit:',name);if(nv===null)return;const nn=nv.toLowerCase().trim();if(!nn)return;await db.collection('noteLib').doc(id).update({name:nn});const ps=await db.collection('products').get();for(const d of ps.docs){const p=d.data();const notes=arr(p.notes);if(notes.some(x=>String(x).toLowerCase()===name.toLowerCase()))await db.collection('products').doc(d.id).update({notes:notes.map(x=>String(x).toLowerCase()===name.toLowerCase()?nn:x)});}await loadLibraries();await loadProducts();};
 window.delNoteLib=async(id,name)=>{if(!confirm('Yakin hapus '+name+'?'))return;await db.collection('noteLib').doc(id).delete();const ps=await db.collection('products').get();for(const d of ps.docs){const p=d.data();const notes=arr(p.notes).filter(x=>String(x).toLowerCase()!==name.toLowerCase());if(notes.length!==arr(p.notes).length)await db.collection('products').doc(d.id).update({notes});}await loadLibraries();await loadProducts();};
 window.editCharacterLib=async(id,name)=>{const nv=prompt('Edit:',name);if(nv===null)return;const nn=nv.toLowerCase().trim();if(!nn)return;await db.collection('characterLib').doc(id).update({name:nn});const ps=await db.collection('products').get();for(const d of ps.docs){const p=d.data();const a=getCharacters(p);if(a.some(x=>String(x).toLowerCase()===name.toLowerCase()))await db.collection('products').doc(d.id).update({characters:a.map(x=>String(x).toLowerCase()===name.toLowerCase()?nn:x)});}await loadLibraries();await loadProducts();};
 window.delCharacterLib=async(id,name)=>{if(!confirm('Yakin hapus '+name+'? Produk yang memakai karakter ini akan kehilangan karakter tersebut.'))return;await db.collection('characterLib').doc(id).delete();const ps=await db.collection('products').get();for(const d of ps.docs){const p=d.data();const a=getCharacters(p).filter(x=>String(x).toLowerCase()!==name.toLowerCase());if(a.length!==getCharacters(p).length)await db.collection('products').doc(d.id).update({characters:a});}await loadLibraries();await loadProducts();};
-window.editOccasionLib=async(id,name)=>{const nv=prompt('Edit:',name);if(nv===null)return;const nn=nv.toLowerCase().trim();if(!nn)return;await db.collection('occasionLib').doc(id).update({name:nn});const ps=await db.collection('products').get();for(const d of ps.docs){const p=d.data();const a=getOccasions(p);if(a.some(x=>String(x).toLowerCase()===name.toLowerCase()))await db.collection('products').doc(d.id).update({suitableFor:a.map(x=>String(x).toLowerCase()===name.toLowerCase()?nn:x)});}await loadLibraries();await loadProducts();};
-window.delOccasionLib=async(id,name)=>{if(!confirm('Yakin hapus '+name+'? Produk yang memakai pilihan ini akan kehilangan pilihan tersebut.'))return;await db.collection('occasionLib').doc(id).delete();const ps=await db.collection('products').get();for(const d of ps.docs){const p=d.data();const a=getOccasions(p).filter(x=>String(x).toLowerCase()!==name.toLowerCase());if(a.length!==getOccasions(p).length)await db.collection('products').doc(d.id).update({suitableFor:a});}await loadLibraries();await loadProducts();};
+window.editOccasionLib=async(id,name)=>{const nv=prompt('Edit:',name);if(nv===null)return;const nn=nv.toLowerCase().trim();if(!nn)return;if(nn===name.toLowerCase().trim())return;const dup=await db.collection('occasionLib').where('name','==',nn).get();if(!dup.empty)return alert('Sudah ada');await db.collection('occasionLib').doc(id).update({name:nn});const ps=await db.collection('products').get();for(const d of ps.docs){const p=d.data(),levels=getOccasionLevels(p);let changed=false;if(Object.prototype.hasOwnProperty.call(levels,name.toLowerCase().trim())){levels[nn]=levels[name.toLowerCase().trim()];delete levels[name.toLowerCase().trim()];changed=true;}const suitable=arr(p.suitableFor).map(x=>String(x).toLowerCase().trim());if(suitable.includes(name.toLowerCase().trim())){const ns=suitable.map(x=>x===name.toLowerCase().trim()?nn:x);await db.collection('products').doc(d.id).update({occasionLevels:levels,suitableFor:ns});changed=false;}else if(changed){await db.collection('products').doc(d.id).update({occasionLevels:levels});}}await loadLibraries();await loadProducts();};
+window.delOccasionLib=async(id,name)=>{const ps=await db.collection('products').get();const used=ps.docs.some(d=>{const p=d.data(),levels=getOccasionLevels(p);return Object.prototype.hasOwnProperty.call(levels,name.toLowerCase().trim())||arr(p.suitableFor).some(x=>String(x).toLowerCase().trim()===name.toLowerCase().trim())});if(used)return alert('Tidak bisa menghapus occasion ini karena masih digunakan oleh produk. Hapus atau ubah occasion pada produk terlebih dahulu.');if(!confirm('Yakin hapus '+name+' dari Library?'))return;await db.collection('occasionLib').doc(id).delete();await loadLibraries();await loadProducts();};
 
 document.getElementById('libAdd').onclick=async()=>{const i=document.getElementById('libInput');try{await addLibrary('noteLib',i.value,()=>i.value='');}catch(e){alert('Gagal menambah Notes: '+e.message);}};
 document.getElementById('charLibAdd').onclick=async()=>{const i=document.getElementById('charLibInput');try{await addLibrary('characterLib',i.value,()=>i.value='');}catch(e){alert('Gagal menambah Karakter Aroma: '+e.message);}};
-document.getElementById('occLibAdd').onclick=async()=>{const i=document.getElementById('occLibInput');try{await addLibrary('occasionLib',i.value,()=>i.value='');}catch(e){alert('Gagal menambah Cocok Untuk: '+e.message);}};
 document.getElementById('libInput').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('libAdd').click();}};
 document.getElementById('charLibInput').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('charLibAdd').click();}};
+document.getElementById('occLibAdd').onclick=async()=>{const i=document.getElementById('occLibInput');try{await addLibrary('occasionLib',i.value,()=>i.value='');}catch(e){alert('Gagal menambah Occasion: '+e.message);}};
 document.getElementById('occLibInput').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('occLibAdd').click();}};
 
 document.querySelectorAll('.libTabs button').forEach(btn=>btn.onclick=()=>{document.querySelectorAll('.libTabs button').forEach(x=>x.classList.remove('on'));document.querySelectorAll('.libPage').forEach(x=>x.classList.remove('on'));btn.classList.add('on');const key=btn.dataset.lib;document.getElementById(key==='notes'?'libNotesPage':key==='characters'?'libCharactersPage':'libOccasionsPage').classList.add('on');});
 
 async function loadProducts(){try{const s=await db.collection('products').orderBy('createdAt','desc').get();all=s.docs.map(d=>({id:d.id,...d.data()}));}catch(e){try{const s=await db.collection('products').get();all=s.docs.map(d=>({id:d.id,...d.data()}));}catch(err){all=[];}}const br=[...new Set(all.map(p=>p.brand).filter(Boolean))].sort();document.getElementById('fBrand').innerHTML='<option value="">Semua Brand</option>'+br.map(b=>`<option value="${escapeHtml(b)}">${escapeHtml(b)}</option>`).join('');renderGrid();renderVtList();}
-function filtered(){const q=document.getElementById('q').value.toLowerCase().trim(),b=document.getElementById('fBrand').value;return all.filter(p=>{if(q&&!(`${p.name||''} ${p.brand||''}`.toLowerCase().includes(q)))return false;if(b&&p.brand!==b)return false;const gs=lowerArr(p.gender);if(selG0.size&&!gs.some(g=>selG0.has(g)))return false;const ns=lowerArr(p.notes);if(selNotes.size&&!([...selNotes].every(x=>ns.includes(x.toLowerCase()))))return false;const cs=lowerArr(getCharacters(p));if(selCharacters.size&&!([...selCharacters].every(x=>cs.includes(x.toLowerCase()))))return false;const os=lowerArr(getOccasions(p));if(selOccasions.size&&!([...selOccasions].every(x=>os.includes(x.toLowerCase()))))return false;return true;});}
+function filtered(){const q=document.getElementById('q').value.toLowerCase().trim(),b=document.getElementById('fBrand').value;return all.filter(p=>{if(q&&!(`${p.name||''} ${p.brand||''}`.toLowerCase().includes(q)))return false;if(b&&p.brand!==b)return false;const gs=lowerArr(p.gender);if(selG0.size&&!gs.some(g=>selG0.has(g)))return false;const ns=lowerArr(p.notes);if(selNotes.size&&!([...selNotes].every(x=>ns.includes(x.toLowerCase()))))return false;const cs=lowerArr(getCharacters(p));if(selCharacters.size&&!([...selCharacters].every(x=>cs.includes(x.toLowerCase()))))return false;const levels=getOccasionLevels(p);if(selOccasions.size&&!([...selOccasions].some(x=>Number(levels[x])>0)))return false;return true;});}
 function renderGrid(){document.getElementById('listV').style.display='block';document.getElementById('detail').style.display='none';const f=filtered(),g=document.getElementById('grid');g.innerHTML='';f.slice(0,showN).forEach(p=>{const el=document.createElement('div');el.className='card';const chars=getCharacters(p).slice(0,2).join(', ');el.innerHTML=`<img src="${escapeHtml(p.image||'https://via.placeholder.com/300')}" onerror="this.src='https://via.placeholder.com/300'"><div class="in"><b>${escapeHtml(p.name||'')}</b><br><small>${escapeHtml(p.brand||'')}</small><br>⭐ ${avg(p)}/10 · ${Number(p.ratingCount||0)} ulasan<br>${rp(p.price)}${chars?`<br><small>${escapeHtml(chars)}</small>`:''}</div>`;el.onclick=()=>openDetail(p.id);g.appendChild(el);});document.getElementById('btnMore').style.display=f.length>showN?'':'none';document.getElementById('btnLess').style.display=showN>25?'':'none';}
 window.renderGrid=renderGrid;
 ['q','fBrand'].forEach(id=>document.getElementById(id).oninput=()=>{showN=25;renderGrid();});
 document.getElementById('btnMore').onclick=()=>{showN+=25;renderGrid();};document.getElementById('btnLess').onclick=()=>{showN=Math.max(25,showN-25);renderGrid();};
-
 function renderVtList(){const box=document.getElementById('vtList'),list=all.filter(p=>p.vtLink);box.innerHTML=list.map(p=>`<div class="noteRow"><span><b>${escapeHtml(p.brand||'')}</b> - ${escapeHtml(p.name||'')}<br><small style="word-break:break-all">${escapeHtml(p.vtLink)}</small></span><span class="actions"><button class="small" onclick="openVt('${esc(p.vtLink)}')">Buka</button> <button class="small" onclick="editVt('${esc(p.id)}')">Edit</button> <button class="small danger" onclick="delVt('${esc(p.id)}')">Hapus</button></span></div>`).join('')||'<small>Belum ada link VT.</small>';}
 window.editVt=async id=>{const cur=(all.find(x=>x.id===id)||{}).vtLink||'';const nv=prompt('Edit link VT:',cur);if(nv===null)return;await db.collection('products').doc(id).update({vtLink:nv.trim()});loadProducts();};
 window.delVt=async id=>{if(!confirm('Hapus link VT ini?'))return;await db.collection('products').doc(id).update({vtLink:''});loadProducts();};
 
 function renderTagSet(set,box,removeFn){box.innerHTML=[...set].sort().map(n=>`<span class="nchip">${escapeHtml(n)}<button class="nx" onclick="${removeFn}('${esc(n)}')">x</button></span>`).join('')||'<small style="color:#777">Belum ada</small>';}
-
 window.remSel=n=>{selected.delete(n);renderSel();};
 window.remCharacter=n=>{selectedCharacters.delete(n);renderCharacterSelections();};
-window.remOccasion=n=>{selectedOccasions.delete(n);renderOccasionSelections();};
+window.remOccasion=n=>{delete selectedOccasions[n];renderOccasionSelections();};
 
-document.querySelectorAll('#gBox .chk input').forEach(cb=>cb.addEventListener('change',()=>{const l=cb.closest('.chk');if(l)l.classList.toggle('on',cb.checked);}));
-
-function renderChoiceChecks(items,set,box){
-  box.innerHTML=items.slice().sort().map(n=>`<label class="nrow"><input type="checkbox" data-choice="${escapeHtml(n)}" ${set.has(n)?'checked':''}> ${escapeHtml(n)}</label>`).join('')||'<small style="color:#777">Belum ada pilihan di library.</small>';
-  box.querySelectorAll('input[data-choice]').forEach(cb=>cb.onchange=()=>{const v=cb.dataset.choice;if(cb.checked)set.add(v);else set.delete(v);renderAllSelections();});
-}
+function renderChoiceChecks(items,set,box){box.innerHTML=items.slice().sort().map(n=>`<label class="nrow"><input type="checkbox" data-choice="${escapeHtml(n)}" ${set.has(n)?'checked':''}> ${escapeHtml(n)}</label>`).join('')||'<small style="color:#777">Belum ada pilihan di library.</small>';box.querySelectorAll('input[data-choice]').forEach(cb=>cb.onchange=()=>{const v=cb.dataset.choice;if(cb.checked)set.add(v);else set.delete(v);renderAllSelections();});}
 function renderAllSelections(){renderSel();renderCharacterSelections();renderOccasionSelections();}
 function renderSel(){renderTagSet(selected,document.getElementById('selBox'),'remSel');}
 function renderCharacterSelections(){renderChoiceChecks(allCharacters,selectedCharacters,document.getElementById('characterChoices'));renderTagSet(selectedCharacters,document.getElementById('selectedCharacters'),'remCharacter');}
-function renderOccasionSelections(){renderChoiceChecks(allOccasions,selectedOccasions,document.getElementById('occasionChoices'));renderTagSet(selectedOccasions,document.getElementById('selectedOccasions'),'remOccasion');}
+
+function renderOccasionSelections(){renderOccasionLevelControls();}
+
+function setOccasionLevel(key,level){const current=Number(selectedOccasions[key]||0);if(current===level)delete selectedOccasions[key];else selectedOccasions[key]=level;renderOccasionLevelControls();}
+
+function renderOccasionLevelControls(){
+const boxes={3:document.getElementById('occasionLevel3'),2:document.getElementById('occasionLevel2'),1:document.getElementById('occasionLevel1')};
+Object.values(boxes).forEach(b=>b.innerHTML='');
+OCCASION_CATALOG.forEach(k=>{[3,2,1].forEach(level=>{const b=boxes[level];const on=Number(selectedOccasions[k]||0)===level;b.insertAdjacentHTML('beforeend',`<button type="button" class="occasionChoice ${on?'on':''}" data-occ="${escapeHtml(k)}" data-level="${level}">${escapeHtml(occasionLabel(k))}</button>`);});});
+Object.values(boxes).forEach(box=>box.querySelectorAll('button[data-occ]').forEach(btn=>btn.onclick=()=>setOccasionLevel(btn.dataset.occ,Number(btn.dataset.level))));
+const chosen=Object.keys(selectedOccasions).filter(k=>OCCASION_CATALOG.includes(k));
+document.getElementById('selectedOccasions').innerHTML=chosen.map(k=>`<span class="nchip">${escapeHtml(occasionLabel(k))} · ${escapeHtml(OCCASION_LEVELS[selectedOccasions[k]]||'')}</span>`).join('')||'<small style="color:#777">Belum ada</small>';
+}
+
+
 function doAddToSet(value,set,collection,input,sug,render){
-  const v=String(value||'').toLowerCase().trim();
-  if(!v)return;
-  if(set.size>=20&&!set.has(v))return alert('Maksimal 20 pilihan');
-  if(!set.has(v))set.add(v);
-  input.value='';
-  if(sug)sug.style.display='none';
-  render();
-  const libs=collection==='noteLib'?libNotes:collection==='characterLib'?libCharacters:libOccasions;
-  const exists=libs.some(x=>String(x.name||'').toLowerCase().trim()===v);
-  if(!exists){
-    db.collection(collection).add({name:v})
-      .then(()=>loadLibraries())
-      .catch(e=>alert('Gagal menambah ke Library: '+e.message));
-  }
-}
-async function addNewLibraryChoice(value,set,collection,input){
-  const v=String(value||'').toLowerCase().trim();
-  if(!v)return;
-  if(set.size>=20&&!set.has(v))return alert('Maksimal 20 pilihan');
-  if(!set.has(v))set.add(v);
-  input.value='';
-  renderAllSelections();
-  const libs=collection==='characterLib'?libCharacters:libOccasions;
-  const existing=libs.some(x=>String(x.name||'').toLowerCase().trim()===v);
-  if(!existing){
-    try{
-      await db.collection(collection).add({name:v});
-      await loadLibraries();
-    }catch(e){
-      alert('Gagal menambah ke Library: '+e.message);
-    }
-  }
-}
+const v=String(value||'').toLowerCase().trim();if(!v)return;if(set.size>=20&&!set.has(v))return alert('Maksimal 20 pilihan');if(!set.has(v))set.add(v);input.value='';if(sug)sug.style.display='none';render();const libs=collection==='noteLib'?libNotes:collection==='characterLib'?libCharacters:libOccasions;const exists=libs.some(x=>String(x.name||'').toLowerCase().trim()===v);if(!exists){db.collection(collection).add({name:v}).then(()=>loadLibraries()).catch(e=>alert('Gagal menambah ke Library: '+e.message));}}
+async function addNewLibraryChoice(value,set,collection,input){const v=String(value||'').toLowerCase().trim();if(!v)return;if(set.size>=20&&!set.has(v))return alert('Maksimal 20 pilihan');if(!set.has(v))set.add(v);input.value='';renderAllSelections();const libs=collection==='characterLib'?libCharacters:libOccasions;const existing=libs.some(x=>String(x.name||'').toLowerCase().trim()===v);if(!existing){try{await db.collection(collection).add({name:v});await loadLibraries();}catch(e){alert('Gagal menambah ke Library: '+e.message);}}}
 const ni=document.getElementById('newNote'),sug=document.getElementById('sug');
 const ci=document.getElementById('newCharacter');
-const oi=document.getElementById('newOccasion');
 document.getElementById('addNoteBtn').onclick=()=>doAddToSet(ni.value,selected,'noteLib',ni,sug,renderSel);
 document.getElementById('addCharacterBtn').onclick=()=>addNewLibraryChoice(ci.value,selectedCharacters,'characterLib',ci);
-document.getElementById('addOccasionBtn').onclick=()=>addNewLibraryChoice(oi.value,selectedOccasions,'occasionLib',oi);
 ni.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('addNoteBtn').click();}};
 ci.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('addCharacterBtn').click();}};
-oi.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('addOccasionBtn').click();}};
 function setupSuggest(input,box,items,set,render){input.oninput=()=>{const v=input.value.toLowerCase().trim();if(!v){box.style.display='none';return;}const m=items.map(x=>x.name||x).filter(n=>n.toLowerCase().includes(v)&&!set.has(n)).slice(0,8);if(!m.length){box.style.display='none';return;}box.innerHTML=m.map(n=>`<div data-v="${escapeHtml(n)}">${escapeHtml(n)}</div>`).join('');box.style.display='block';box.querySelectorAll('div').forEach(d=>d.onclick=()=>{set.add(d.dataset.v);input.value='';box.style.display='none';render();});};}
 setupSuggest(ni,sug,libNotes,selected,renderSel);
 
-async function openDetail(id){const d=await db.collection('products').doc(id).get();if(!d.exists)return;const p={id:d.id,...d.data()};document.getElementById('listV').style.display='none';const det=document.getElementById('detail');det.style.display='block';const nchips=arr(p.notes).map(n=>`<span class="nchip">${escapeHtml(n)}<button class="nx" onclick="delNote('${esc(id)}','${esc(n)}')">x</button></span>`).join('');const cchips=getCharacters(p).map(n=>`<span class="nchip">${escapeHtml(n)}</span>`).join('');const ochips=getOccasions(p).map(n=>`<span class="nchip">${escapeHtml(n)}</span>`).join('');const rs=await db.collection('products').doc(id).collection('reviews').orderBy('createdAt','desc').get();const revs=rs.docs.map(rd=>{const r=rd.data();const vtb=r.vtLink?` <button class="vtbtn" onclick="openVt('${esc(r.vtLink)}')">Lihat VT Review Ku</button>`:'';return `<div class="rev"><div><b>${escapeHtml(r.name||'')}</b> - ⭐${escapeHtml(r.score)}${vtb}</div><div style="margin-top:4px">${escapeHtml(r.text||'')}</div><button onclick="delRev('${esc(id)}','${esc(rd.id)}')" style="background:#c00;color:#fff;border:0;padding:4px 8px;border-radius:6px;margin-top:6px">Hapus ulasan</button></div>`;}).join('')||'<small>Belum ada ulasan</small>';const prodVt=p.vtLink?`<button class="b" style="margin-top:8px;background:#000" onclick="openVt('${esc(p.vtLink)}')">Test Buka VT Produk</button>`:'';det.innerHTML=`<button class="b" onclick="renderGrid()">← Kembali</button> <button class="b" onclick="startEdit('${esc(id)}')">Edit</button> <button class="b danger" onclick="delP('${esc(id)}')">Delete</button><img src="${escapeHtml(p.image||'https://via.placeholder.com/600')}" style="margin-top:10px" onerror="this.src='https://via.placeholder.com/600'"><h2>${escapeHtml(p.name||'')}</h2><p><b>${escapeHtml(p.brand||'')}</b> • ⭐ ${avg(p)}/10 • ${Number(p.ratingCount||0)} ulasan • ${rp(p.price)}</p><p>${escapeHtml(p.desc||'')}</p><p><b>Gender:</b> ${escapeHtml(arr(p.gender).join(', ')||'-')}</p><p><b>Karakter Aroma:</b><br>${cchips||'<small>belum ada</small>'}</p><p><b>Cocok Untuk:</b><br>${ochips||'<small>belum ada</small>'}</p><p><small>VT: ${escapeHtml(p.vtLink||'-')}</small></p>${prodVt}<h4>Notes</h4><div>${nchips||'<small>belum ada</small>'}</div><h4>Ulasan Pengunjung</h4>${revs}<div style="height:80px"></div>`;window.scrollTo({top:0,behavior:'smooth'});}
+async function openDetail(id){const d=await db.collection('products').doc(id).get();if(!d.exists)return;const p={id:d.id,...d.data()};document.getElementById('listV').style.display='none';const det=document.getElementById('detail');det.style.display='block';const nchips=arr(p.notes).map(n=>`<span class="nchip">${escapeHtml(n)}</span>`).join('');const cchips=getCharacters(p).map(n=>`<span class="nchip">${escapeHtml(n)}</span>`).join('');const gs=arr(p.gender).map(x=>String(x).charAt(0).toUpperCase()+String(x).slice(1)).join(' • ')||'-';const levels=getOccasionLevels(p),groups={3:[],2:[],1:[]};OCCASION_CATALOG.forEach(k=>{const lv=Number(levels[k]||0);if(groups[lv])groups[lv].push(occasionLabel(k));});let ochips='';if(groups[3].length)ochips+=`<div class="detailOccGroup"><strong>⭐ Sangat Cocok</strong>${groups[3].map(x=>`<span class="nchip">${escapeHtml(x)}</span>`).join('')}</div>`;if(groups[2].length)ochips+=`<div class="detailOccGroup"><strong>✓ Cocok</strong>${groups[2].map(x=>`<span class="nchip">${escapeHtml(x)}</span>`).join('')}</div>`;if(groups[1].length)ochips+=`<div class="detailOccGroup"><strong>— Kurang Cocok</strong>${groups[1].map(x=>`<span class="nchip">${escapeHtml(x)}</span>`).join('')}</div>`;const rs=await db.collection('products').doc(id).collection('reviews').orderBy('createdAt','desc').get();const revs=rs.docs.map(rd=>{const r=rd.data();const vtb=r.vtLink?` <button class="vtbtn" onclick="openVt('${esc(r.vtLink)}')">Lihat VT Review Ku</button>`:'';return `<div class="rev"><div><b>${escapeHtml(r.name||'')}</b> - ⭐${escapeHtml(r.score)}${vtb}</div><div style="margin-top:4px">${escapeHtml(r.text||'')}</div><button onclick="delRev('${esc(id)}','${esc(rd.id)}')" style="background:#c00;color:#fff;border:0;padding:4px 8px;border-radius:6px;margin-top:6px">Hapus ulasan</button></div>`;}).join('')||'<small>Belum ada ulasan</small>';const prodVt=p.vtLink?`<button class="b" style="margin-top:8px;background:#000" onclick="openVt('${esc(p.vtLink)}')">Test Buka VT Produk</button>`:'';det.innerHTML=`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="b" onclick="renderGrid()">← Kembali</button><button class="b" onclick="startEdit('${esc(id)}')">Edit</button><button class="b danger" onclick="delP('${esc(id)}')">Delete</button></div><div class="detailHeroAdmin" style="margin-top:14px"><div class="detailLeftAdmin"><img src="${escapeHtml(p.image||'https://via.placeholder.com/600')}" onerror="this.src='https://via.placeholder.com/600'"><div class="detailDescAdmin"><div class="detailInfoTitle">Deskripsi</div>${escapeHtml(p.desc||'Belum ada deskripsi untuk parfum ini.')}</div></div><div class="detailRightAdmin"><h2 style="margin-top:0">${escapeHtml(p.name||'')}</h2><p><b>${escapeHtml(p.brand||'')}</b> • ⭐ ${avg(p)}/10 • ${Number(p.ratingCount||0)} ulasan • ${rp(p.price)}</p><div class="detailInfoBlock"><div class="detailInfoTitle">Gender</div><div>${escapeHtml(gs)}</div></div><div class="detailInfoBlock"><div class="detailInfoTitle">Notes</div><div>${nchips||'<small>belum ada</small>'}</div></div><div class="detailInfoBlock"><div class="detailInfoTitle">Karakter Aroma</div><div>${cchips||'<small>belum ada</small>'}</div></div><div class="detailInfoBlock"><div class="detailInfoTitle">Cocok Untuk</div>${ochips||'<small>belum ada</small>'}</div><div class="detailInfoBlock"><div class="detailInfoTitle">Link</div><div><small>VT: ${escapeHtml(p.vtLink||'-')}</small></div>${prodVt}${p.shopee?`<a href="${escapeHtml(p.shopee)}" target="_blank" rel="noopener" style="text-decoration:none;display:block"><button class="b" style="width:100%;margin-top:8px">🛒 Cek / Beli di Shopee</button></a>`:''}</div></div></div><h4>Ulasan Pengunjung</h4>${revs}<div style="height:80px"></div>`;window.scrollTo({top:0,behavior:'smooth'});}
 window.delNote=async(id,note)=>{const d=await db.collection('products').doc(id).get();const ns=arr(d.data().notes).filter(x=>x!==note);await db.collection('products').doc(id).update({notes:ns});await loadProducts();openDetail(id);};
 window.delP=async id=>{if(!confirm('Yakin hapus produk ini?'))return;await db.collection('products').doc(id).delete();await loadProducts();};
 window.delRev=async(pid,rid)=>{if(!confirm('Yakin hapus ulasan ini? Ini akan hapus rating + link VT juga.'))return;await db.collection('products').doc(pid).collection('reviews').doc(rid).delete();const rs=await db.collection('products').doc(pid).collection('reviews').get();let sum=0;rs.forEach(d=>sum+=Number(d.data().score||0));await db.collection('products').doc(pid).update({ratingSum:sum,ratingCount:rs.size});await loadProducts();openDetail(pid);};
-
-window.startEdit=async id=>{const d=await db.collection('products').doc(id).get();if(!d.exists)return;const p=d.data();editId=id;['name','brand','price','image','shopee','vtLink','adminScore','desc'].forEach(k=>document.getElementById(k).value=p[k]??'');selected=new Set(lowerArr(p.notes));selectedCharacters=new Set(lowerArr(getCharacters(p)));selectedOccasions=new Set(lowerArr(getOccasions(p)));renderAllSelections();document.querySelectorAll('#gBox .chk').forEach(l=>{const v=l.querySelector('input').value;const on=lowerArr(p.gender).includes(v);l.classList.toggle('on',on);l.querySelector('input').checked=on;});sw(1);document.getElementById('formTitle').innerText='Edit Produk';document.getElementById('save').innerText='Update';document.getElementById('cancelEdit').style.display='block';};
-function resetForm(){editId=null;['name','brand','price','image','shopee','vtLink','adminScore','desc'].forEach(k=>document.getElementById(k).value='');selected.clear();selectedCharacters.clear();selectedOccasions.clear();renderAllSelections();document.querySelectorAll('#gBox .chk').forEach(l=>{l.classList.remove('on');l.querySelector('input').checked=false;});document.getElementById('formTitle').innerText='Tambah Produk';document.getElementById('save').innerText='Simpan Produk';document.getElementById('cancelEdit').style.display='none';}
+window.startEdit=async id=>{const d=await db.collection('products').doc(id).get();if(!d.exists)return;const p=d.data();editId=id;['name','brand','price','image','shopee','vtLink','adminScore','desc'].forEach(k=>document.getElementById(k).value=p[k]??'');selected=new Set(lowerArr(p.notes));selectedCharacters=new Set(lowerArr(getCharacters(p)));selectedOccasions=getOccasionLevels(p);renderAllSelections();document.querySelectorAll('#gBox .chk').forEach(l=>{const v=l.querySelector('input').value;const on=lowerArr(p.gender).includes(v);l.classList.toggle('on',on);l.querySelector('input').checked=on;});sw(1);document.getElementById('formTitle').innerText='Edit Produk';document.getElementById('save').innerText='Update';document.getElementById('cancelEdit').style.display='block';};
+function resetForm(){editId=null;['name','brand','price','image','shopee','vtLink','adminScore','desc'].forEach(k=>document.getElementById(k).value='');selected.clear();selectedCharacters.clear();selectedOccasions={};renderAllSelections();document.querySelectorAll('#gBox .chk').forEach(l=>{l.classList.remove('on');l.querySelector('input').checked=false;});document.getElementById('formTitle').innerText='Tambah Produk';document.getElementById('save').innerText='Simpan Produk';document.getElementById('cancelEdit').style.display='none';}
 document.getElementById('cancelEdit').onclick=resetForm;
-
-document.getElementById('save').onclick=async()=>{const gs=[...document.querySelectorAll('#gBox input:checked')].map(i=>i.value);const sc=Number(document.getElementById('adminScore').value||0);const name=document.getElementById('name').value.trim();if(!name)return alert('Nama wajib');if(!gs.length)return alert('Gender wajib');const data={name,brand:document.getElementById('brand').value.trim(),price:Number(document.getElementById('price').value||0),image:document.getElementById('image').value.trim(),shopee:document.getElementById('shopee').value.trim(),vtLink:document.getElementById('vtLink').value.trim(),adminScore:sc,desc:document.getElementById('desc').value,notes:[...selected],gender:gs,characters:[...selectedCharacters],suitableFor:[...selectedOccasions]};try{if(editId){await db.collection('products').doc(editId).update(data);alert('Terupdate');}else{data.ratingSum=0;data.ratingCount=0;data.createdAt=firebase.firestore.FieldValue.serverTimestamp();await db.collection('products').add(data);alert('Tersimpan');}resetForm();await loadLibraries();await loadProducts();sw(0);}catch(e){alert('Gagal menyimpan: '+e.message);}};
-
+document.getElementById('save').onclick=async()=>{const gs=[...document.querySelectorAll('#gBox input:checked')].map(i=>i.value);const sc=Number(document.getElementById('adminScore').value||0);const name=document.getElementById('name').value.trim();if(!name)return alert('Nama wajib');if(!gs.length)return alert('Gender wajib');const data={name,brand:document.getElementById('brand').value.trim(),price:Number(document.getElementById('price').value||0),image:document.getElementById('image').value.trim(),shopee:document.getElementById('shopee').value.trim(),vtLink:document.getElementById('vtLink').value.trim(),adminScore:sc,desc:document.getElementById('desc').value,notes:[...selected],gender:gs,characters:[...selectedCharacters],suitableFor:Object.keys(selectedOccasions),occasionLevels:selectedOccasions};try{if(editId){await db.collection('products').doc(editId).update(data);alert('Terupdate');}else{data.ratingSum=0;data.ratingCount=0;data.createdAt=firebase.firestore.FieldValue.serverTimestamp();await db.collection('products').add(data);alert('Tersimpan');}resetForm();await loadLibraries();await loadProducts();sw(0);}catch(e){alert('Gagal menyimpan: '+e.message);}};
 window.testBanner=()=>{const u=document.getElementById('bannerUrl').value.trim();document.getElementById('bannerPreview').innerHTML=u?`<img src="${escapeHtml(u)}" style="width:100%;border-radius:8px" onerror="this.alt='Gambar gagal dimuat'">`:'';};
 window.saveBanner=async()=>{const u=document.getElementById('bannerUrl').value.trim();await db.collection('settings').doc('site').set({bannerUrl:u},{merge:true});alert('Tersimpan');testBanner();};
 window.saveTiktok=async()=>{const u=document.getElementById('tiktokProfile').value.trim();await db.collection('settings').doc('site').set({tiktokProfile:u},{merge:true});alert('Tersimpan');};
 
 (async()=>{try{const d=await db.collection('settings').doc('site').get();if(d.exists){if(d.data().bannerUrl){document.getElementById('bannerUrl').value=d.data().bannerUrl;testBanner();}if(d.data().tiktokProfile)document.getElementById('tiktokProfile').value=d.data().tiktokProfile;}}catch(e){}})();
-
 (async()=>{await loadLibraries();await loadProducts();})();
 }
 </script>
